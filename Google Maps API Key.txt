@@ -1,0 +1,19 @@
+Google Maps API Key
+AIzaSyBmucMgfJZCWnqutKQlRqo_Trd48_6wkhs
+
+Para Configurar Google Maps Instalar el siguiente paquete en Laravel siguiendo las instrucciones:
+
+https://github.com/bradcornford/Googlmapper
+
+Se debe habilitar la API_KEY de Google Maps para poder usar la api.
+
+Es probable que al insertar el mapa tal y como se explica en la figura obtengamos un error, usando la consola de desarrollador de javascript podemos ver la naturaleza del error, que en la misma documentacion de Google donde se explica la configuración de su sitio para acceder a la api, también hay una tabla de los posibles errores que se generan.
+
+Si el error es debido a los CORS (Cross-Origin Resource Sharing), significa que no esta la habilitada la autorizacion para intercambiar información que en este caso sera entre el servidor donde tenemos alojado e sitio y el servidor donde esta l api. En ese caso podemos instalar el paquete que se brinda en el siguiente link:
+
+https://github.com/barryvdh/laravel-cors
+
+
+
+
+
