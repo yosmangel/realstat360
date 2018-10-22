@@ -132,7 +132,7 @@
 								<h2 class="panel-title">Dirección del Inmueble</h2>
 							</header>
 							<div class="panel-body">
-								<div class="col-xs-6">
+								<div class="col-xs-12">
 									<div class="form-group">
 										<label class="col-sm-4 control-label" id="w1-pais">País</label>
 										<div class="col-sm-7">
@@ -251,11 +251,19 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-xs-6">
+								<!--<div class="col-xs-6">
 									<h4><i class="el el-map-marker-alt"></i> Comprobar dirección en el mapa</h4>
 									<p>Arrastre el Marcador hasta la ubicación del inmueble</p>
-									<div id="map"></div>
-								</div>
+									<!--<div style="width: 100%"><iframe width="100%" height="600" src="https://maps.google.com/maps?width=100%&height=600&hl=es&q=Espa%C3%B1a+()&ie=UTF8&t=&z=7&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"><a href="https://www.mapsdirections.info/crear-un-mapa-de-google/">Crear Mapa Google</a> by <a href="https://www.mapsdirections.info/">Mapa España</a></iframe></div><br />
+
+									<iframe
+									  width="600"
+									  height="450"
+									  frameborder="0" style="line-height: 20px; margin: 15px 0px;"
+									  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBYikqwhDXJCWGb_WGTtNTtyjoRuGTN4ls
+									    &q=Space+Needle,Seattle+WA" allowfullscreen>    
+									</iframe>--
+								</div>-->
 							</div>
 						</section>
 						<section class="panel panel-featured panel-featured-primary">

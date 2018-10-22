@@ -4,7 +4,7 @@
         <div class="right-wrapper pull-right">
             <ol class="breadcrumbs">
                 <li>
-                    <a href="index.html">
+                    <a href="/home">
                         <i class="fa fa-home"></i>
                     </a>
                 </li>
@@ -102,10 +102,11 @@
                                         </div>
                                   @else
                                     <h4>Acciones Pendientes</h4>
+                                    <!--
                                     <div class="alert alert-warning">
                                         Aún no ha dado de alta a ningún Agente Inmobiliario.<br>
                                         <a href="{{ route('agentes.create')}}" class="alert-link"><strong>Agregar Agente.</strong></a>
-                                    </div>
+                                    </div>-->
                                   @endif
                                 </div>
                         </div>

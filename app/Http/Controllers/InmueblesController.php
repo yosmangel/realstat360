@@ -113,13 +113,12 @@ class InmueblesController extends Controller
 
         // Agencia y Promociones
         $agencia = Agencia::where('user_id',Auth::user()->id)->get();
+        $promociones = [];
+        $agentes = [];
         if (count($agencia)>0) {
             $promociones = Promocion::where('agencia_id',$agencia[0]->id)->get();
             $agentes = Agente::where('agencia_id',$agencia[0]->id)->get();
-        }else{
-            $promociones = [];
-            $agentes = []; 
-        };
+        }
 
         $clientes = Cliente::where('usuario_id',Auth::user()->id)->get();
         $tipologias = [];
@@ -128,7 +127,6 @@ class InmueblesController extends Controller
         $inmuima = [];
         $inmufile = [];
         $demandas = [];
-
         return view('inmuebles.create', compact('inmueble_id','entidades', 'monedas','promociones','tipologias','inmuima','inmufile', 'agencia', 'agentes','clientes','demandas'));
     }
 

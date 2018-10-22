@@ -35,7 +35,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo;
+    protected $redirectTo="/home";
 
     /**
      * Create a new authentication controller instance.
@@ -51,7 +51,7 @@ class AuthController extends Controller
     /*
      Overrriding the showLoginForm method
     */
-    public function showLoginForm($type = 'profesionales')
+    public function showLoginForm()
     {
         $view = property_exists($this, 'loginView')
                     ? $this->loginView : 'auth.authenticate';
@@ -60,21 +60,7 @@ class AuthController extends Controller
             return view($view);
         }
 
-        $type = strtolower($type);
-        if ($type == 'propietarios') {
-            $user_type = 0;
-            $this->redirectTo = '/';
-        }elseif ($type == 'profesionales') {
-            $user_type = 1;
-            $this->redirectTo = '/home';
-        }elseif ($type == 'demanda') {
-            $user_type = 2;
-            $this->redirectTo = '/panel-demanda';
-        }elseif ($type == 'admin') {
-            $user_type = 25;
-            $this->redirectTo = '/home';
-        }
-        return view('auth.login', compact('type', 'user_type'));
+        return view('auth.login');
 
     }
 

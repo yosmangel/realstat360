@@ -11,23 +11,23 @@
 		@include('partials.header')
 		<div class="inner-wrapper">
 			@include('partials.menu_left')
-				<section role="main" class="content-body">
+			<section role="main" class="content-body">
 					
-					<header class="page-header">
-						<h2>Nuevo Inmueble</h2>
-						<div class="right-wrapper pull-right">
-							<ol class="breadcrumbs">
-								<li>
-									<a href="index.html">
-										<i class="fa fa-home"></i>
-									</a>
-								</li>
-								<li><span>Inmuebles</span></li>
-								<li><span>Nuevo Inmueble</span></li>
-							</ol>
-							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
-						</div>
-					</header>
+				<header class="page-header">
+					<h2>Nuevo Inmueble</h2>
+					<div class="right-wrapper pull-right">
+						<ol class="breadcrumbs">
+							<li>
+								<a href="index.html">
+									<i class="fa fa-home"></i>
+								</a>
+							</li>
+							<li><span>Inmuebles</span></li>
+							<li><span>Nuevo Inmueble</span></li>
+						</ol>
+						<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
+					</div>
+				</header>
 
 					<!-- start: page -->
 						<div class="row">
@@ -116,15 +116,15 @@
 							
 						</div>
 					<!-- end: page -->
-				</section>
+			</section>
 		</div>
 		@include('partials.aside')
 	</section>
 @endsection
 @section('js')
-	<!-- Google Map Api -->
+	<!-- Google Map Api 
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeHD5h03-YMxjHIQXL-TYtgxn_cSvamcQ&libraries=places" async defer></script>
-	<script src="{{ asset('js/main/map.js') }}"></script>
+	<script src="{{ asset('js/main/map.js') }}"></script>-->
 	
 	<!-- Specific Page Vendor -->
 	<script src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>

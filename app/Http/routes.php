@@ -13,7 +13,11 @@
 */
 
 // Index FRONT DEL SITIO, SIN ESTAR AUTENTICADO
-Route::get('/', 'IndexController@index');
+//Route::get('/', 'IndexController@index');
+Route::get('/',[
+		'uses'	=>	'HomeController@index',
+		'as'	=>	'home' 
+		]);
 
 // HOME ESTANDO AUTENTICADO
 //Route::get('/', 'HomeController@index')->name('home');
@@ -149,7 +153,7 @@ Route::group(['middleware' => ['auth', 'demanda']], function(){
  	******************************
  	* user_type = 0 *
 */ 
- Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propietarios'
+Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propietarios'
  	Route::get('panel-propietario', [
 		'uses'	=> 'PanelPropietarioController@index',
 		'as'	=> 'panel-propietario'
@@ -222,7 +226,7 @@ Route::group(['middleware' => ['auth', 'demanda']], function(){
 		CONTACTOS PROPIETARIO-DEMANDANTE
 	*/
 	Route::resource('contacto-propietario-demandante','ContactoController');
- });
+});
 
 /*
 	* Fin del Panel de PROPIETARIOS
@@ -369,3 +373,6 @@ Route::group(['middleware'=>['auth','profesionales']], function(){
 /*
 	* Fin del Panel de PROFESIONALES
 */
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

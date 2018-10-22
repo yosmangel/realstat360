@@ -19,7 +19,7 @@
 				</span>
 			</div>
 		</form>
-		<span class="separator"></span>
+		<!--<span class="separator"></span>
 		<ul class="notifications">
 			<li>
 				<a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
@@ -167,7 +167,7 @@
 					</div>
 				</div>
 			</li>
-		</ul>
+		</ul>-->
 		<span class="separator"></span>
 		<div id="userbox" class="userbox">
 			<a href="#" data-toggle="dropdown">

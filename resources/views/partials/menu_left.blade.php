@@ -12,12 +12,12 @@
         <div class="nano-content">
             <nav id="menu" class="nav-main">
                 <ul class="nav nav-main">
-                    <li class="nav-active">
+                    <!--<li class="nav-active">
                         <a href="/">
                             <i class="fa fa-home" aria-hidden="true"></i>
                             <span>PORTAL</span>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="nav-active">
                         <a href="/home">
                             <i class="fa fa-desktop" aria-hidden="true"></i>
@@ -70,7 +70,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-parent">
+                    <!--<li class="nav-parent">
                         <a>
                             <i class="fa fa-search"></i>
                             <span>DEMANDAS</span>
@@ -201,7 +201,7 @@
                         </ul>
                     </li>
                     @endif
-                   
+                    -->
                    
                 </ul>
             </nav>

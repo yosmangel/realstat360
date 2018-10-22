@@ -27,6 +27,10 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        if (!Auth::check()) {
+            return view('auth.login');
+        }
         $fecha = Date('d-D-M-Y');
         $arrayFecha = explode('-', $fecha);
         switch ($arrayFecha[1]) {
@@ -98,4 +102,5 @@ class HomeController extends Controller
         $agentes = Agente::where('agencia_id', $agencia[0]->id)->get();
         return view('home', compact('dia_sem', 'arrayFecha', 'mes', 'acciones', 'agentes'));
     }
+
 }
