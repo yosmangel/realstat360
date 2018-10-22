@@ -9,7 +9,7 @@
             </a>
             <div class="panel panel-sign">
                 <div class="panel-title-sign mt-xl text-right">
-                    <h2 class="title text-uppercase text-weight-bold m-none"><i class="fa fa-user mr-xs"></i>Ingreso {{ $type }}</h2>
+                    <h2 class="title text-uppercase text-weight-bold m-none"><i class="fa fa-user mr-xs"></i>Ingreso</h2>
                 </div>
                 <div class="panel-body">
                     <form action="{{ route('login', 0) }}" id="frmSignInPropietario" class="form-horizontal" role="form" method="POST">
@@ -32,7 +32,7 @@
                                 @endforeach
                             </div>
                         @endif
-                        <input type="hidden" name="user_type" id="tipo_usuario" value={{ $user_type }}> <!-- tipo_usuario = 1 => Profesional, tipo_usuario = 0 => Propietario -->
+                        <input type="hidden" name="user_type" id="tipo_usuario" value=1> <!-- tipo_usuario = 1 => Profesional, tipo_usuario = 0 => Propietario -->
                         <div class="form-group mb-lg {{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email">Correo Electrónico</label>
                             <div class="input-group input-group-icon">
@@ -88,8 +88,7 @@
                         <span class="mt-lg mb-lg line-thru text-center text-uppercase">
                             <span>or</span>
                         </span>
-                        <p class="text-center">¿Aún no se ha registrado? <a href="{{ url('/registro/'.$type) }}">¡Ir al Registro!</a></p>
-                        <p class="text-center text-danger">Volver a la página de  <a href="{{ url('/') }}">Inicio</a></p>
+                        
                     </form>
                 </div>
             </div>

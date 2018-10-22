@@ -25,6 +25,7 @@ use DB;
 use Postcode;
 use App\Provincia;
 use App\Ciudad;
+use Illuminate\Support\Facades\Log;
 
 class InmueblesController extends Controller
 {
@@ -145,9 +146,9 @@ class InmueblesController extends Controller
         if ($request->ajax()) {
 
             $messages = [
-                'fecha_alta.required' => 'Debe ingresar la fecha de alta.',
                 'tipo_id.required' =>'Debe ingresar el tipo de inmueble.',
                 'categoria_id.required' => 'Debe ingresar la categoría.',
+                'fecha_alta.required' => 'Debe ingresar la fecha de alta.',
                 'estado.required' => 'Debe ingresar el estado del inmueble.',
                 'pais_id.required' => 'Debe ingresar el país.',
                 'codigo_postal.required' => 'El código postal es obligatorio.',
@@ -160,7 +161,9 @@ class InmueblesController extends Controller
                 'ventaprecio2.numeric'  => 'Los campos de precio deben ser numéricos.',
                 'traspasoprecio.numeric'    => 'Los campos de precio deben ser numéricos.',
                 'traspasoprecio.numeric'    => 'Los campos de precio deben ser numéricos.',
-                'superficie.required'       => 'Debe ingresar la superficie en metros cuadrados del inmueble,',
+                'superficie.required'       => 'Debe ingresar la superficie en metros cuadrados del inmueble.',
+                'anio_contruccion.required'=> 'Debe ingresar el año de construcción del inmueble.',
+                'anio_contruccion.numeric'=> 'El año de construcción del inmueble debe ser numérico.',
                 'descripcion_corta.required'         => 'Debe ingresar al menos una descripción corta del inmueble',
                 'persona.required'  => 'Debe ingresar el nombre de la persona de contacto.',
             ];
@@ -183,7 +186,8 @@ class InmueblesController extends Controller
                 'traspasoprecio'	=> 'numeric',
                 'traspasoprecio'	=> 'numeric',
                 'descripcion_corta' => 'required',
-                'persona'       => 'required'
+                'persona'       => 'required',
+                'anio_contruccion'=> 'required|numeric'
             	],$messages);
             
             //$ultima_modalidad = Modalidad::orderBy('id')->get()->last();
@@ -208,6 +212,8 @@ class InmueblesController extends Controller
                     $modalidad = new Modalidad();
                     $modalidad->fill($request->all());
                     $modalidad->inmueble_id = $inmueble->id;
+                    Log::info('comienza');
+                    Log::info($request->ventaprecio);
                     $modalidad->save();
 
                     /* INICIO DATOS INTERIORES */

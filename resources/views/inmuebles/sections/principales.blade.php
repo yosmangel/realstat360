@@ -7,7 +7,7 @@
 	<div class="row">
 		<div id="response" class="alert alert-success" role="alert" style="display:none">
 		</div>
-		<form class="form-horizontal" novalidate="novalidate" action="{{ route('inmuebles.store') }}" method="post">
+		<form class="form-horizontal" novalidate="novalidate" action="{{ route('inmuebles.store') }}" method="post" id="principalInmueble" name="principalInmueble">
 			<input name="_token" type="hidden" value = "{{ csrf_token() }}" id="token">
 			<input name="certificado_energetico" type="hidden" value = "en tramite">
 			<div class="tab-content">
@@ -21,7 +21,7 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label">Tipo de Inmueble</label>
 									<div class="col-md-7">
-										<select data-plugin-selectTwo class="form-control populate" name="tipo_id">
+										<select data-plugin-selectTwo class="form-control populate" name="tipo_id" id="tipo_id">
 											<option value="">::Seleccionar::</option>
 											@foreach($tipos as $tipo)
 												<option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
@@ -32,7 +32,7 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label">Categoría</label>
 									<div class="col-md-7">
-										<select data-plugin-selectTwo class="form-control populate" name="categoria_id">
+										<select data-plugin-selectTwo class="form-control populate" name="categoria_id" id="categoria_id">
 											<option value="">::Seleccionar::</option>
 											@foreach($categorias as $categoria)
 												<option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
@@ -108,14 +108,14 @@
 											<span class="input-group-addon">
 												<i class="fa fa-calendar"></i>
 											</span>
-											<input type="date" class="form-control" name="fecha_alta">
+											<input type="date" class="form-control" name="fecha_alta" id="fecha_alta">
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-4 control-label">Estado</label>
 									<div class="col-md-7">
-										<select data-plugin-selectTwo class="form-control populate" name="estado">
+										<select data-plugin-selectTwo class="form-control populate" name="estado" id="estado">
 												<option value="">::Selecionar::</option>
 												<option value="disponible">Disponible</option>
 												<option value="reservado">Reservado</option>
@@ -136,7 +136,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label" id="w1-pais">País</label>
 										<div class="col-sm-7">
-											<select data-plugin-selectTwo class="form-control populate" id="w1-pais" name="pais_id">
+											<select data-plugin-selectTwo class="form-control populate" id="pais_id" name="pais_id">
 												<option value="1" selected>España</option>
 											</select>
 										</div>
@@ -144,13 +144,13 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="w1-codigo-postal">C.P.</label>
 										<div class="col-sm-7">
-											<input type="text" class="form-control input-sm" name="codigo_postal" id="w1-codigo-postal" required>
+											<input type="text" class="form-control input-sm" name="codigo_postal" id="codigo_postal" >
 											<p>
 												¿Dudas de tu código postal? <a href="http://www.correos.es">www.correos.es</a> 
 											</p>
 										</div>
 									</div>
-									<div class="form-group">
+									<!--<div class="form-group">
 										<label class="col-sm-4 control-label">Buscar por CP</label>
 										<div class="col-sm-2">
 											<button class="btn btn-info">Buscar</button>
@@ -158,11 +158,11 @@
 										<div class="col-sm-5">
 											
 										</div>
-									</div>
+									</div>-->
 									<div class="form-group">
 										<label class="col-sm-4 control-label">Provincia</label>
 										<div class="col-sm-7">
-											<select data-plugin-selectTwo class="form-control populate" name="provincia_id">
+											<select data-plugin-selectTwo class="form-control populate" name="provincia_id" id="provincia_id">
 												<option value="">::Seleccionar::</option>
 												@foreach($provincias as $provincia)
 													<option value="{{ $provincia->id }}">{{ $provincia->nombre }}</option>
@@ -173,7 +173,7 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label">Ciudad</label>
 										<div class="col-sm-7">
-											<select data-plugin-selectTwo class="form-control populate" name="ciudad_id">
+											<select data-plugin-selectTwo class="form-control populate" name="ciudad_id" id="ciudad_id">
 												<option value="">::Seleccionar::</option>
 												@foreach($ciudades as $ciudad)
 													<option value="{{ $ciudad->id }}">{{ $ciudad->nombre }}</option>
@@ -184,8 +184,8 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="w1-tipovia">Tipo de Vía</label>
 										<div class="col-sm-7">
-											<select data-plugin-selectTwo class="form-control populate" name="via_id" id="w1-tipovia">
-												<option value=1>::Seleccionar::</option>
+											<select data-plugin-selectTwo class="form-control populate" name="via_id" id="via_id">
+												<option value="">::Seleccionar::</option>
 												@foreach($vias as $via)
 													<option value="{{ $via->id }}">{{ $via->nombre }}</option>
 												@endforeach
@@ -195,13 +195,13 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="w1-calle">Calle</label>
 										<div class="col-sm-7">
-											<input type="text" class="form-control input-sm" name="calle" id="w1-calle" required>
+											<input type="text" class="form-control input-sm" name="calle" id="calle" >
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="w1-numero">No.</label>
 										<div class="col-sm-7">
-											<input type="text" class="form-control input-sm" name="numero" id="w1-numero" required>
+											<input type="text" class="form-control input-sm" name="numero" id="numero" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -218,13 +218,13 @@
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="w1-escalera">Esc.</label>
 										<div class="col-sm-7">
-											<input type="text" class="form-control input-sm" name="escalera" id="w1-escalera" required>
+											<input type="text" class="form-control input-sm" name="escalera" id="w1-escalera" >
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="col-sm-4 control-label" for="w1-puerta">Pta.</label>
 										<div class="col-sm-7">
-											<input type="text" class="form-control input-sm" name="puerta" id="w1-puerta" required>
+											<input type="text" class="form-control input-sm" name="puerta" id="w1-puerta" >
 										</div>
 									</div>
 									<div class="form-group">
@@ -247,7 +247,7 @@
 											Zona
 										</label>
 										<div class="col-sm-7"  data-toggle="tooltip" data-placement="bottom" title="La dirección exacta es más fiable para los usuarios. Mostrar sólo la zona o incluso sólo la calle restan calidad al anuncio.">
-											<input type="text" class="form-control input-sm" name="zona" id="w1-zona" required>
+											<input type="text" class="form-control input-sm" name="zona" id="w1-zona" >
 										</div>
 									</div>
 								</div>
@@ -277,7 +277,7 @@
 											<div class="col-sm-7">
 												<div class="row">
 													<div class="col-xs-12 col-md-4">
-														<input type="number" min=0 placeholder="0" class="form-control input-sm" name="superficie" id="w1-superficie" required>
+														<input type="number" min=0 placeholder="0" class="form-control input-sm" name="superficie" id="superficie" >
 													</div>
 													<div class="col-xs-12 col-md-8">
 														<div class="checkbox-custom checkbox-default checkbox-inline mt-sm ml-md mr-md">
@@ -740,7 +740,7 @@
 								<div class="form-group">
 									<label class="col-xs-12 col-md-4 control-label" for="w1-anno-construccion">Año Contrucción</label>
 									<div class="col-xs-12 col-md-7">
-										<input type="number" min=1800 max=2030 class="form-control" name="anio_contruccion" id="w1-anno-construccion">
+										<input type="number" class="form-control" name="anio_contruccion" id="anio_contruccion">
 									</div>
 								</div>
 								<div class="form-group">
@@ -1401,7 +1401,7 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="w1-persona">Persona de contacto</label>
 									<div class="col-md-7">
-										<input type="text" class="form-control input-sm" name="persona" id="w1-persona" required>
+										<input type="text" class="form-control input-sm" name="persona" id="persona" >
 									</div>
 								</div>
 								<div class="form-group">
@@ -1420,21 +1420,23 @@
 															<i class="fa fa-life-ring"></i>
 														</div>
 													</div>
-													<div class="widget-summary-col">
-														<div class="summary">
-															<h4 class="title">Datos de mi Agencia</h4>
-															<div class="info">
-																<strong>Email</strong>
-																<span class="text-primary">{{ $agencia[0]->email }}</span>
-																<br>
-																<strong>Teléfono</strong>
-																<span class="text-primary">{{ $agencia[0]->telefono }}</span>
+													@if(count($agencia))
+														<div class="widget-summary-col">
+															<div class="summary">
+																<h4 class="title">Datos de mi Agencia</h4>
+																<div class="info">
+																	<strong>Email</strong>
+																	<span class="text-primary">{{ $agencia[0]->email }}</span>
+																	<br>
+																	<strong>Teléfono</strong>
+																	<span class="text-primary">{{ $agencia[0]->telefono }}</span>
+																</div>
+															</div>
+															<div class="summary-footer">
+																<a class="text-muted text-uppercase">(ver mas ...)</a>
 															</div>
 														</div>
-														<div class="summary-footer">
-															<a class="text-muted text-uppercase">(ver mas ...)</a>
-														</div>
-													</div>
+													@endif
 												</div>
 											</div>
 										</section>
@@ -1448,7 +1450,7 @@
 							<div class="hidden-xs col-md-4"></div>
 							<div class="col-md-8">
 							<!--button type="submit" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Guardar</button-->
-							<button type="submit" class="mb-xs mt-xs mr-xs btn btn-success btn-nuevo-inmueble"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Guardar y Continuar</button>
+							<button	type="submit" class="mb-xs mt-xs mr-xs btn btn-success btn-nuevo-inmueble"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Guardar y Continuar</button>
 							<!--button type="button" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar y Continuar <i class="fa fa-angle-double-right" aria-hidden="true"></i></button-->
 							</div> 
 						</div>

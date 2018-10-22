@@ -18,7 +18,7 @@
 					<div class="right-wrapper pull-right">
 						<ol class="breadcrumbs">
 							<li>
-								<a href="index.html">
+								<a href="{{route('home')}}">
 									<i class="fa fa-home"></i>
 								</a>
 							</li>
@@ -34,10 +34,7 @@
 							<div class="col-xs-12 col-md-12">
 								<section class="panel form-wizard" id="w1">
 									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-											<a href="#" class="panel-action panel-action-dismiss" data-panel-dismiss></a>
-										</div>
+										
 										<h2 class="panel-title">Crear Inmueble</h2>
 									</header>
 									<div class="panel-body panel-body-nopadding">
@@ -100,14 +97,11 @@
 									</div>
 									<div class="panel-footer">
 										<ul class="pager">
-											<li class="previous disabled">
-												<a><i class="fa fa-angle-left"></i> Anterior</a>
+											<li id="previousLI" class="pull-left disabled">
+												<a href="#"><i class="fa fa-angle-left"></i> Anterior</a>
 											</li>
-											<li class="finish hidden pull-right">
-												<a>Último</a>
-											</li>
-											<li class="next">
-												<a>Siguiente <i class="fa fa-angle-right"></i></a>
+											<li id="nextLI" class="pull-right">
+												<a href="#">Siguiente <i class="fa fa-angle-right"></i></a>
 											</li>
 										</ul>
 									</div>

@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
-use Illuminate\Http\Request;
-use App\ActivationService;
 use App\Agencia;
 use App\DemandaRapida;
+use App\ActivationService;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
 class AuthController extends Controller 
 {
@@ -195,4 +196,15 @@ class AuthController extends Controller
         abort(404);
     }
 
+    public function logout()
+    {
+        Auth::guard($this->getGuard())->logout();
+
+        return redirect('/');
+    }
+
+     protected function getGuard()
+    {
+        return property_exists($this, 'guard') ? $this->guard : null;
+    }
 }

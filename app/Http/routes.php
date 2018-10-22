@@ -45,7 +45,11 @@ Route::get('/',[
 		 el sistema. Al registrarse tiene acceso a la plataforma Propietario-Demanda
 	25: Administrador
 */
-	Route::Auth();
+
+    $this->get('logout', 'Auth\AuthController@logout');
+
+
+        
 
 	Route::get('tipo-login/', function(){
 		return view('Homepage.auth.login_options');
@@ -65,18 +69,24 @@ Route::get('/',[
 		'uses'	=>	'Auth\AuthController@showLoginForm',
 		'as'	=>	'login' 
 		]);
-		Route::post('ingresar/{type?}',[
+	Route::post('ingresar/{type?}',[
 		'uses'		=>	'Auth\AuthController@login',
 		'as'		=>	'login'
-		]);
-		Route::get('registro/{type?}',[
+	]);
+
+	// Password Reset Routes...
+    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+    $this->post('password/reset', 'Auth\PasswordController@reset');
+
+	/*Route::get('registro/{type?}',[
 		'uses'	=>	'Auth\AuthController@showRegistrationForm',
 		'as'	=>	'register'
 	]);
 	Route::post('registro/{type?}',[
 		'uses'	=>	'Auth\AuthController@register',
 		'as'	=>	'register'
-	]);
+	]);*/
 	
 	/*
 		DEMANDA RAPIDA
