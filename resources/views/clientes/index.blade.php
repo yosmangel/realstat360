@@ -20,7 +20,8 @@
 									</a>
 								</li>
 								<li><span><a href="{{ route('clientes.index') }}">Clientes</a></span></li>
-								<li><span><a href="{{ route('clientes.create') }}">Nuevo Cliente</a></span></li>
+								<li><span><a href="#">Nuevo Cliente</a></span></li>
+								<!--<li><span><a href="{{ route('clientes.create') }}">Nuevo Cliente</a></span></li>-->
 							</ol>
 							<a class="sidebar-right-toggle" data-open="sidebar-right"><i class="fa fa-chevron-left"></i></a>
 						</div>
@@ -39,13 +40,13 @@
 									</div>
 									<div id="collapse2One" class="accordion-body collapse in">
 												<div class="panel-body">
-													<div  class="text-right">
+													<!--<div  class="text-right">
 														<span>
 															<a href="{{ route('clientes.create') }}" class="btn btn-success">
 													            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Nuevo Cliente
 													        </a>
 														</span>
-													</div>
+													</div>-->
 													<section class="panel panel-featured-left panel-featured-primary">
 														<div class="panel-body">
 														@if(count($clientes)>0)

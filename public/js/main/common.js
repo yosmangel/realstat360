@@ -21,7 +21,7 @@ $('[data-toggle="tooltip"]').tooltip();
 		    $('#opcioncompartir').collapse('hide');
 		};
 	});
-	$('#alquilerresidencial').change(function(){
+	$('#alquiler_residencial').change(function(){
 		if ($(this).is(':checked')) {
 			$('#opcionalqres').collapse('show');
 		}else{
@@ -77,7 +77,7 @@ $('[data-toggle="tooltip"]').tooltip();
 			$('#op-alqvacanno').collapse('hide');
 		};
 	});
-	$('#alqres_opcompra').change(function(){
+	$('#opcion_compra').change(function(){
 		if ($(this).is(':checked')) {
 			$('#alqresopcompra').collapse('show');
 		}else{

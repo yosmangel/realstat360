@@ -128,6 +128,11 @@ $(document).ready(function(){
 	
 	$('.btn-continuar').bind('click', function(e){
 		e.preventDefault();
+		var decision=moveForm('next');
+		if(decision==false){
+			return false;
+		}
+
 		var getout_tab = $(this).data('getouttab');
 		var getout_content = $(this).data('getoutcontent');
 		var getin_tab = $(this).data('getintab');
@@ -136,7 +141,7 @@ $(document).ready(function(){
 		$('#'+getout_content).removeClass('active');
 		$('#'+getin_tab).addClass('active');
 		$('#'+getin_content).addClass('active');
-		scrollTo("#w1");
+		
 	});
 
 
@@ -581,6 +586,7 @@ $(document).ready(function(){
 				    	return false;
 				        break;
 				    case 'extra':
+				    	scrollTo("#w1");
 				    	$('#tab-extras').removeClass('active');
 						$('#w1-extras').removeClass('active');
 						$('#w1-principales').addClass('active');
@@ -590,12 +596,30 @@ $(document).ready(function(){
 				        return false;
 				        break;
 				    case 'fotos':
+				    	scrollTo("#w1");
+				    	$('#tab-fotos').removeClass('active');
+						$('#w1-fotos').removeClass('active');
+						$('#tab-extras').addClass('active');
+						$('#w1-extras').addClass('active');
+						seccionForm="extra";
 				    	return false;
 				        break;
 				    case 'internos':
+				    	scrollTo("#w1");
+				    	$('#w1-internos').removeClass('active');
+						$('#tab-internos').removeClass('active');
+						$('#tab-fotos').addClass('active');
+						$('#w1-fotos').addClass('active');
+						seccionForm="fotos";
 				        return false;
 				        break;
-				    case 'internos':
+				    case 'demanda':
+				    	scrollTo("#w1");
+				    	$('#w1-demandas').removeClass('active');
+						$('#tab-demandas').removeClass('active');
+						$('#tab-internos').addClass('active');
+						$('#w1-internos').addClass('active');
+						seccionForm="internos";
 				        return false;
 				        break;
 				    default:
@@ -615,19 +639,38 @@ $(document).ready(function(){
 							$('#w1-extras').addClass('active');
 							$("#previousLI").removeClass('disabled');
 							seccionForm="extra";
+							scrollTo("#w1");
 				    	}
 						
 				        break;
 				    case 'extra':
+				    	scrollTo("#w1");
+				    	$('#tab-extras').removeClass('active');
+						$('#w1-extras').removeClass('active');
+						$('#tab-fotos').addClass('active');
+						$('#w1-fotos').addClass('active');
+						seccionForm="fotos";
 				        return false;
 				        break;
 				    case 'fotos':
+				    	scrollTo("#w1");
+				    	$('#w1-fotos').removeClass('active');
+						$('#tab-fotos').removeClass('active');
+						$('#tab-internos').addClass('active');
+						$('#w1-internos').addClass('active');
+						seccionForm="internos";
 				    	return false;
 				        break;
 				    case 'internos':
+				    	scrollTo("#w1");
+				    	$('#tab-internos').removeClass('active');
+						$('#w1-internos').removeClass('active');
+						$('#w1-demandas').addClass('active');
+						$('#tab-demandas').addClass('active');
+						seccionForm="demanda";
 				        return false;
 				        break;
-				    case 'internos':
+				    case 'demanda':
 				        return false;
 				        break;
 				    default:

@@ -254,7 +254,7 @@
 								<!--<div class="col-xs-6">
 									<h4><i class="el el-map-marker-alt"></i> Comprobar dirección en el mapa</h4>
 									<p>Arrastre el Marcador hasta la ubicación del inmueble</p>
-									<!--<div style="width: 100%"><iframe width="100%" height="600" src="https://maps.google.com/maps?width=100%&height=600&hl=es&q=Espa%C3%B1a+()&ie=UTF8&t=&z=7&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"><a href="https://www.mapsdirections.info/crear-un-mapa-de-google/">Crear Mapa Google</a> by <a href="https://www.mapsdirections.info/">Mapa España</a></iframe></div><br />
+									<div style="width: 100%"><iframe width="100%" height="600" src="https://maps.google.com/maps?width=100%&height=600&hl=es&q=Espa%C3%B1a+()&ie=UTF8&t=&z=7&iwloc=B&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"><a href="https://www.mapsdirections.info/crear-un-mapa-de-google/">Crear Mapa Google</a> by <a href="https://www.mapsdirections.info/">Mapa España</a></iframe></div><br />
 
 									<iframe
 									  width="600"
@@ -262,7 +262,7 @@
 									  frameborder="0" style="line-height: 20px; margin: 15px 0px;"
 									  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBYikqwhDXJCWGb_WGTtNTtyjoRuGTN4ls
 									    &q=Space+Needle,Seattle+WA" allowfullscreen>    
-									</iframe>--
+									</iframe>
 								</div>-->
 							</div>
 						</section>
@@ -320,7 +320,7 @@
 																<div class="col-xs-8 col-sm-8 col-md-7 col-lg-7">
 																	<div class="input-group mb-md">
 																		<span class="input-group-addon">€</span>
-																		<input type="number" min=0 placeholder="0" class="form-control input-sm"  id="ventapreciom2" name="ventaprecio2">
+																		<input type="number" min=0 placeholder="0" class="form-control input-sm"  id="ventaprecio2" name="ventaprecio2">
 																		<span class="input-group-addon ">.00</span>
 																	</div>
 																</div>
@@ -419,7 +419,7 @@
 											<div class="col-xs-12">
 												<div class="checkbox-custom checkbox-default checkbox-inline mt-sm ml-md mr-md">
 													<input type="hidden" value=0 name="alquiler_residencial">
-													<input type="checkbox" value=1 id="alquilerresidencial" name="alquiler_residencial" aria-expanded="false" aria-controls="opcionalqres">
+													<input type="checkbox" value=1 id="alquiler_residencial" name="alquiler_residencial" aria-expanded="false" aria-controls="opcionalqres">
 													<label for="alquilerresidencial">Alquiler Residencial &nbsp;&nbsp;(Mensual)</label>
 												</div>
 											</div>
@@ -450,7 +450,8 @@
 														</div>
 													</div>
 													<div class="checkbox-custom checkbox-default checkbox-inline mt-sm ml-md mr-md">
-															<input type="checkbox" id="alqres_opcompra" name="alqres_opcompra" aria-expanded="false" aria-controls="alqresopcompra">
+															<input type="hidden" value=0 name="opcion_compra">
+															<input type="checkbox" value=1 id="opcion_compra" name="opcion_compra" aria-expanded="false" aria-controls="alqresopcompra">
 															<label for="alqres_opcompra">Opción a Compra</label>
 													</div><br><br>
 													<div class="collapse" id="alqresopcompra">
@@ -461,7 +462,7 @@
 																	<div class="col-sm-6">
 																		<div class="input-group mb-md">
 																			<span class="input-group-addon">€</span>
-																			<input type="number" min=0 placeholder="0" class="form-control input-sm"  id="alqresopcomp" name="alqresopcomp">
+																			<input type="number" min=0 placeholder="0" class="form-control input-sm"  id="opcioncompraprecio" name="opcioncompraprecio">
 																			<span class="input-group-addon ">.00</span>
 																		</div>
 																	</div>
@@ -471,7 +472,7 @@
 																	<div class="col-sm-6">
 																		<div class="input-group mb-md">
 																			<span class="input-group-addon">€</span>
-																			<input type="number" min=0 placeholder="0" class="form-control input-sm"  id="alqresopcomp2" name="alqresopcomp2">
+																			<input type="number" min=0 placeholder="0" class="form-control input-sm"  id="opcioncompraprecio2" name="opcioncompraprecio2">
 																			<span class="input-group-addon ">.00</span>
 																		</div>
 																	</div>

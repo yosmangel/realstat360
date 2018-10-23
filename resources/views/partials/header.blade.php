@@ -3,7 +3,7 @@
 	<div class="logo-container">
 		<!-- Logo Image -->
 		<a href="{{ url('/') }}" class="logo">
-			<img  src="{{ asset('images/logoRS360_transparente.png') }}" height="35" alt="Logo" />
+			<img  src="{{ asset('images/logo5.png') }}" height="35" alt="Logo" />
 		</a>
 		<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
 			<i class="fa fa-bars" aria-label="Toggle sidebar"></i>
@@ -11,14 +11,14 @@
 	</div>
 	<!-- start: search & user box -->
 	<div class="header-right">
-		<form action="pages-search-results.html" class="search nav-form">
+		<!--<form action="pages-search-results.html" class="search nav-form">
 			<div class="input-group input-search">
 				<input type="text" class="form-control" name="q" id="q" placeholder="Buscar...">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
 				</span>
 			</div>
-		</form>
+		</form>-->
 		<!--<span class="separator"></span>
 		<ul class="notifications">
 			<li>

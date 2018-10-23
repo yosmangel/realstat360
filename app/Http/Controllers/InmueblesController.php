@@ -157,10 +157,28 @@ class InmueblesController extends Controller
                 'via_id.required'       => 'El tipo de vía es obligatorio.',
                 'calle.required'         => 'El nombre o número de calle es obligatorio.',
                 'numero.required'        => 'El número de la dirección es obligatorio',
-                'ventaprecio.numeric'   => 'Los campos de precio deben ser numéricos.',
-                'ventaprecio2.numeric'  => 'Los campos de precio deben ser numéricos.',
-                'traspasoprecio.numeric'    => 'Los campos de precio deben ser numéricos.',
-                'traspasoprecio.numeric'    => 'Los campos de precio deben ser numéricos.',
+                'ventaprecio.numeric'   => 'Los campos de precio de venta deben ser numéricos.',
+                'ventaprecio2.numeric'  => 'Los campos de precio de venta por metro cuadrádo deben ser numéricos.',
+                'traspasoprecio.numeric'    => 'Los campos de precio de traspaso deben ser numéricos.',
+                'traspasoprecio.numeric'    => 'Los campos de precio de traspaso por metro cuadrádo deben ser numéricos.',
+                'compartirprecio.numeric'    => 'Los campos de precio por compartir deben ser numéricos.',
+                'compartirprecio2.numeric'    => 'Los campos de precio por compartir por metro cuadrádo deben ser numéricos.',
+                'alqresprecio.numeric'    => 'Los campos de precio por alquiler residencial deben ser numéricos.',
+                'alqresprecio2.numeric'    => 'Los campos de precio por alquiler residencial por metro cuadrádo deben ser numéricos.',
+                'opcioncompraprecio.numeric'    => 'Los campos de precio por alquiler residencial con opción a compra deben ser numéricos.',
+                'opcioncompraprecio2.numeric'    => 'Los campos de precio por alquiler residencial con opción a compra por metro cuadrádo deben ser numéricos.',
+                'alqvac_dia_p.numeric'    => 'Los campos de precio por alquiler vacacional por día deben ser numéricos.',
+                'alqvac_dia_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por día por metro cuadrádo deben ser numéricos.',
+                'alqvac_semana_p.numeric'    => 'Los campos de precio por alquiler vacacional por semana deben ser numéricos.',
+                'alqvac_semana_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por semana por metro cuadrádo deben ser numéricos.',
+                'alqvac_quincena_p.numeric'    => 'Los campos de precio por alquiler vacacional por quincena deben ser numéricos.',
+                'alqvac_quincena_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por quincena por metro cuadrádo deben ser numéricos.',
+                'alqvac_mes_p.numeric'    => 'Los campos de precio por alquiler vacacional por mes deben ser numéricos.',
+                'alqvac_mes_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por mes por metro cuadrádo deben ser numéricos.',
+                'alqvac_temporada_p.numeric'    => 'Los campos de precio por alquiler vacacional por temporada deben ser numéricos.',
+                'alqvac_temporada_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por temporada por metro cuadrádo deben ser numéricos.',
+                'alqvac_anno_p.numeric'    => 'Los campos de precio por alquiler vacacional por año deben ser numéricos.',
+                'alqvac_anno_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por año por metro cuadrádo deben ser numéricos.',
                 'superficie.required'       => 'Debe ingresar la superficie en metros cuadrados del inmueble.',
                 'anio_contruccion.required'=> 'Debe ingresar el año de construcción del inmueble.',
                 'anio_contruccion.numeric'=> 'El año de construcción del inmueble debe ser numérico.',
@@ -184,7 +202,25 @@ class InmueblesController extends Controller
                 'ventaprecio'	=> 'numeric',
                 'ventaprecio2'	=> 'numeric',
                 'traspasoprecio'	=> 'numeric',
-                'traspasoprecio'	=> 'numeric',
+                'traspasoprecio2'	=> 'numeric',
+                'compartirprecio'   => 'numeric',
+                'compartirprecio2'  => 'numeric',
+                'alqresprecio'  => 'numeric',
+                'alqresprecio2' => 'numeric',
+                'opcioncompraprecio'    => 'numeric',
+                'opcioncompraprecio2'   => 'numeric',
+                'alqvac_dia_p'  => 'numeric',
+                'alqvac_dia_pm2'    => 'numeric',
+                'alqvac_semana_p'   => 'numeric',
+                'alqvac_semana_pm2' => 'numeric',
+                'alqvac_quincena_p' => 'numeric',
+                'alqvac_quincena_pm2'   => 'numeric',
+                'alqvac_mes_p'  => 'numeric',
+                'alqvac_mes_pm2'    => 'numeric',
+                'alqvac_temporada_p'    => 'numeric',
+                'alqvac_temporada_pm2'  => 'numeric',
+                'alqvac_anno_p' => 'numeric',
+                'alqvac_anno_pm2'   => 'numeric',
                 'descripcion_corta' => 'required',
                 'persona'       => 'required',
                 'anio_contruccion'=> 'required|numeric'
@@ -205,20 +241,63 @@ class InmueblesController extends Controller
                 }
 
                 if ($inmueble->save()) {
-                    $ultimo_inmueble = Inmueble::orderBy('id','DES')->first();
-                    $id_inmueble = $ultimo_inmueble->id;
 
                     /* MODALIDAD DE VENTA, ALQUILER, TRASPASO, ETC */
                     $modalidad = new Modalidad();
                     $modalidad->fill($request->all());
                     $modalidad->inmueble_id = $inmueble->id;
-                    Log::info('comienza');
-                    Log::info($request->ventaprecio);
+
+                    //VENTA
+                    $modalidad->venta= $request->venta;
+                    $modalidad->ventaprecio=$request->ventaprecio?$request->ventaprecio:0;
+                    $modalidad->ventaprecio2=$request->ventaprecio2?$request->ventaprecio2:0;
+                    //Traspaso
+                    $modalidad->traspaso= $request->traspaso;
+                    $modalidad->traspasoprecio=$request->traspasoprecio?$request->traspasoprecio:0;
+                    $modalidad->traspasoprecio2=$request->traspasoprecio2?$request->traspasoprecio2:0;
+                    //COMPARTIR
+                    $modalidad->compartir= $request->compartir;
+                    $modalidad->periodicidad=$request->periodicidad;
+                    $modalidad->compartirprecio=$request->compartirprecio?$request->compartirprecio:0;
+                    $modalidad->compartirprecio2=$request->compartirprecio2?$request->compartirprecio2:0;
+                    //ALQUILERES RESIDENCIAL MENSUAL
+                    $modalidad->alquiler_residencial= $request->alquiler_residencial;
+                    $modalidad->alqresprecio=$request->alqresprecio?$request->alqresprecio:0;
+                    $modalidad->alqresprecio2=$request->alqresprecio2?$request->alqresprecio2:0;
+                    $modalidad->opcion_compra=$request->opcion_compra;
+                    $modalidad->opcioncompraprecio=$request->opcioncompraprecio?$request->opcioncompraprecio:0;
+                    $modalidad->opcioncompraprecio2=$request->opcioncompraprecio2?$request->opcioncompraprecio2:0;
+                    //ALQUILERES RESIDENCIAL VACAIONAL
+                    $modalidad->alquiler_vacacional= $request->alquiler_vacacional;
+                    //DIA
+                    $modalidad->alqvac_dia= $request->alqvac_dia;
+                    $modalidad->alqvac_dia_p=$request->alqvac_dia_p?$request->alqvac_dia_p:0;
+                    $modalidad->alqvac_dia_pm2=$request->alqvac_dia_pm2?$request->alqvac_dia_pm2:0;
+                    //SEMANA
+                    $modalidad->alqvac_semana= $request->alqvac_semana;
+                    $modalidad->alqvac_semana_p=$request->alqvac_semana_p?$request->alqvac_semana_p:0;
+                    $modalidad->alqvac_semana_pm2=$request->alqvac_semana_pm2?$request->alqvac_semana_pm2:0;
+                    //QUINCENA
+                    $modalidad->alqvac_quincena= $request->alqvac_quincena;
+                    $modalidad->alqvac_quincena_p=$request->alqvac_quincena_p?$request->alqvac_quincena_p:0;
+                    $modalidad->alqvac_quincena_pm2=$request->alqvac_quincena_pm2?$request->alqvac_quincena_pm2:0;
+                    //MES
+                    $modalidad->alqvac_mes= $request->alqvac_mes;
+                    $modalidad->alqvac_mes_p=$request->alqvac_mes_p?$request->alqvac_mes_p:0;
+                    $modalidad->alqvac_mes_pm2=$request->alqvac_mes_pm2?$request->alqvac_mes_pm2:0;
+                    //TEMPORADA
+                    $modalidad->alqvac_temporada= $request->alqvac_temporada;
+                    $modalidad->alqvac_temporada_p=$request->alqvac_temporada_p?$request->alqvac_temporada_p:0;
+                    $modalidad->alqvac_temporada_pm2=$request->alqvac_temporada_pm2?$request->alqvac_temporada_pm2:0;
+                    //AÑO
+                    $modalidad->alqvac_anno= $request->alqvac_anno;
+                    $modalidad->alqvac_anno_p=$request->alqvac_anno_p?$request->alqvac_anno_p:0;
+                    $modalidad->alqvac_anno_pm2=$request->alqvac_anno_pm2?$request->alqvac_anno_pm2:0;
                     $modalidad->save();
 
                     /* INICIO DATOS INTERIORES */
                     $datos_int = new Interior();
-                    $datos_int->inmueble_id = $id_inmueble;
+                    $datos_int->inmueble_id = $inmueble->id;
                     $datos_int->aire_acondicionado = $request->aire_acondicionado;
                     $datos_int->amueblado = $request->amueblado;
                     $datos_int->armarios = $request->armarios;
@@ -249,7 +328,7 @@ class InmueblesController extends Controller
                     
                     /* INICIO DATOS FINCA */
                     $datfinca = new Finca();
-                    $datfinca->inmueble_id = $id_inmueble;
+                    $datfinca->inmueble_id = $inmueble->id;
                     $datfinca->ascensor = $request->ascensor;
                     $datfinca->conserje = $request->conserje;
                     $datfinca->energia_solar = $request->energia_solar;
@@ -263,7 +342,7 @@ class InmueblesController extends Controller
 
                     /* INICIO DATOS EXTERIORES */
                     $datos_ext = new Exterior();
-                    $datos_ext->inmueble_id = $id_inmueble;
+                    $datos_ext->inmueble_id = $inmueble->id;
                     $datos_ext->balcones = $request->balcones;
                     $datos_ext->vista_al_mar = $request->vista_al_mar;
                     $datos_ext->jardin_privado = $request->jardin_privado;
@@ -287,7 +366,7 @@ class InmueblesController extends Controller
                     /* INICIO DATOS EXTRAS */
                     // Se crea el registro pero los datos se entran en el update
                     $extras = new Extra();
-                    $extras->inmueble_id = $id_inmueble;
+                    $extras->inmueble_id = $inmueble->id;
                     $extras->save();
                     /* FIN DE DATOS EXTRAS */
 
@@ -295,15 +374,15 @@ class InmueblesController extends Controller
                     // Se realiza una busqueda para ver si existen demandas coicidentes con el inmueble creado
                     
                     /* Busqueda por tipo de inmueble */
-                    $tipo_inmueble = $inmueble->tipo_id;
+                    //$tipo_inmueble = $inmueble->tipo_id;
                     //$valores = [$tipo_inmueble,$inmueble->tipo_id];
                     //$demandas = Demanda::where('tipo_inmueble_id',$tipo_inmueble)->get();
                     /* FIN DE LAS DEMANDAS COINCIDENTES */
 
                     return response()->json(['mensaje'          => 'El inmueble se guardo correctamente', 
-                                             'inmuebleid'       => $ultimo_inmueble->id, 
-                                             'inmueble'         => $ultimo_inmueble, 
-                                             'tipo_inmueble'    => $tipo_inmueble,
+                                             'inmuebleid'       => $inmueble->id, 
+                                             'inmueble'         => $inmueble, 
+                                             'tipo_inmueble'    => $inmueble->tipo_id,
                                              'habitaciones'     => $request->habitaciones,
                                              'zona'             => $request->zona
                                              ]);

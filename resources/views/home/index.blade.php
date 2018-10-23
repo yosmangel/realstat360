@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-lg-12 text-center">
                             <div class="img-responsive">
-                                <img class="appear-animation  pull-left" width="500px" src="{{ asset('images/realstate360.png') }}" data-appear-animation="fadeInRightBig">
+                                <img class="appear-animation  pull-left" width="500px" src="{{ asset('images/logo5.png') }}" data-appear-animation="fadeInRightBig">
                             </div>
                         </div>
                     </div>

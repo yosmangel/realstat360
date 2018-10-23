@@ -40,7 +40,7 @@
                                     Nuevo Inmueble
                                 </a>
                             </li>
-                            <li>
+                            <!--<li>
                                 <a href="{{ route('promociones.index') }}">
                                     Lista Promociones
                                 </a>
@@ -49,7 +49,7 @@
                                 <a href="{{ route('promociones.create') }}">
                                     Nueva Promoci&oacute;n
                                 </a>
-                            </li>
+                            </li>-->
                         </ul>
                     </li>
                     <li class="nav-parent">
@@ -63,11 +63,11 @@
                                         Lista de Clientes
                                 </a>
                             </li>
-                            <li>
+                           <!-- <li>
                                 <a href="{{ route('clientes.create') }}">
                                         Agregar Cliente
                                 </a>
-                            </li>
+                            </li>-->
                         </ul>
                     </li>
                     <!--<li class="nav-parent">

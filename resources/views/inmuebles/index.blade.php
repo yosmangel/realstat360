@@ -140,6 +140,7 @@
 										
 									</div>
 								</div>
+								<!--
 								<div class="panel panel-accordion panel-accordion-primary">
 									<div class="panel-heading">
 										<h4 class="panel-title">
@@ -150,10 +151,10 @@
 									</div>
 									<div id="collapse2Two" class="accordion-body collapse in">
 										<div class="panel-body">
-											@include('inmuebles.sections.ver_en_mapa')
+											//include('inmuebles.sections.ver_en_mapa')
 										</div>
 									</div>
-								</div>
+								</div>-->
 								<div class="panel panel-accordion panel-accordion-primary">
 									<div class="panel-heading">
 										<h4 class="panel-title">

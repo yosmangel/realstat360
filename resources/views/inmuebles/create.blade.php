@@ -41,32 +41,32 @@
 										<div class="wizard-tabs">
 											<ul class="wizard-steps">
 												<li id="tab-principales" class="active">
-													<a href="#w1-principales" data-toggle="tab" class="text-center">
+													<a href="#" data-toggle="tab" class="text-center">
 														<span class="badge hidden-xs">1</span>
 														Principales <small>Datos Inmueble</small>
 													</a>
 												</li>
 												<li id="tab-extras">
-													<a href="#w1-extras" data-toggle="tab" class="text-center">
+													<a href="#" data-toggle="tab" class="text-center">
 														<span class="badge hidden-xs">2</span>
 														Extras <small>Inmueble, Finca</small>
 													</a>
 												</li>
 												<li id="tab-fotos">
-													<a href="#w1-fotos" data-toggle="tab" class="text-center">
+													<a href="#" data-toggle="tab" class="text-center">
 														<span class="badge hidden-xs">3</span>
 														Fotos y Documentos
 													</a>
 												</li>
 												<li id="tab-internos">
-													<a href="#w1-internos" data-toggle="tab" class="text-center">
-														<span class="badge hidden-xs">3</span>
+													<a href="#" data-toggle="tab" class="text-center">
+														<span class="badge hidden-xs">4</span>
 														Internos <small>Datos Privados</small>
 													</a>
 												</li>
 												<li id="tab-demandas">
-													<a href="#w1-demandas" data-toggle="tab" class="text-center">
-														<span class="badge hidden-xs">3</span>
+													<a href="#" data-toggle="tab" class="text-center">
+														<span class="badge hidden-xs">5</span>
 														Demandas <small>coincidentes</small>
 													</a>
 												</li>
@@ -89,6 +89,7 @@
 											</div>
 											<!-- DATOS DE CONTACTO EN PUBLICACIONES -->
 											<div role="tabpanel" id="w1-demandas" class="tab-pane">
+												@include('inmuebles.sections.demandas')
 												<input type="hidden" id="tipoinmueble" value=""/>
 												<input type="hidden" id="habitaciones" value=""/>
 												<input type="hidden" id="zona" value=""/>

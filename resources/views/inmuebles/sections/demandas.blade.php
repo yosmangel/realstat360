@@ -66,4 +66,13 @@
 				</section>
 			</div>
 	</div>
+	<div class="col-xs-12">
+		<div class="row">
+			<div class="hidden-xs col-md-4"></div>
+			<div class="col-md-8">
+				<button type="button" class="mb-xs mt-xs mr-xs btn btn-success align-center"><i class="fa fa-home" aria-hidden="true" href="{{ route('inmuebles.index') }}"></i> Inicio <i class="fa fa-angle-double-right" aria-hidden="true"></i></button>
+			</div> 
+		</div>
+		<br><br>
+	</div>
 </div>
