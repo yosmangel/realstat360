@@ -7,7 +7,7 @@
 	<div class="row">
 		<div id="response" class="alert alert-success" role="alert" style="display:none">
 		</div>
-		<form class="form-horizontal" novalidate="novalidate" action="{{ url($url) }}" method="post" id="frmCliente" name="frmCliente">
+		<form class="form-horizontal" novalidate="novalidate" action="{{ url($url) }}" action2="{{ route('clientes.index') }}"method="post" id="frmCliente" name="frmCliente">
 			<input name="_token" type="hidden" value = "{{ csrf_token() }}" id="token">
 			{{ method_field($method) }}
 			<div class="col-md-12">

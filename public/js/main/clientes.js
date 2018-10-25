@@ -7,6 +7,7 @@ $(document).ready(function(){
 		var nombre_cliente = $('#w1-nombre').val();
 		var form = $(this).parents('form');
 		var url = form.attr('action');
+		var urlSuccess = form.attr('action2');
 		var method = $('#method').val();
 		var validacion=validarFormularioCliente();
 		if(validacion.flag){
@@ -47,7 +48,7 @@ $(document).ready(function(){
 		   		$(".btn-submit").attr('disabled',true);
 		   		$('#msj_ok').fadeIn().delay(3000).fadeOut(350);
 		   		timeOutId = setTimeout(function(){
-		   			window.location.href = '/clientes';
+		   			window.location.href = urlSuccess;
 				}, 2000);
 				console.log(result);
 		    }
