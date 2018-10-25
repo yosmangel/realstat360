@@ -2,7 +2,7 @@
 <header class="header">
 	<div class="logo-container">
 		<!-- Logo Image -->
-		<a href="{{ url('/') }}" class="logo">
+		<a href="{{route('home')}}" class="logo">
 			<img  src="{{ asset('images/logo5.png') }}" height="35" alt="Logo" />
 		</a>
 		<div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
@@ -11,14 +11,15 @@
 	</div>
 	<!-- start: search & user box -->
 	<div class="header-right">
-		<!--<form action="pages-search-results.html" class="search nav-form">
+		<form action="{{route('encuentra')}}" class="search nav-form" method="POST">
 			<div class="input-group input-search">
-				<input type="text" class="form-control" name="q" id="q" placeholder="Buscar...">
+				<input name="_token" type="hidden" value = "{{ csrf_token() }}" id="token">
+				<input type="text" class="form-control" name="buscadorGeneral" id="buscadorGeneral" placeholder="Buscar...">
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+					<button class="btn btn-default" id="buscadorGeneralBoton" type="submit"><i class="fa fa-search"></i></button>
 				</span>
 			</div>
-		</form>-->
+		</form>
 		<!--<span class="separator"></span>
 		<ul class="notifications">
 			<li>

@@ -19,7 +19,7 @@
                         </a>
                     </li>-->
                     <li class="nav-active">
-                        <a href="/home">
+                        <a href="{{route('home')}}">
                             <i class="fa fa-desktop" aria-hidden="true"></i>
                             <span>INICIO RS360</span>
                         </a>
@@ -63,11 +63,11 @@
                                         Lista de Clientes
                                 </a>
                             </li>
-                           <!-- <li>
+                           <li>
                                 <a href="{{ route('clientes.create') }}">
                                         Agregar Cliente
                                 </a>
-                            </li>-->
+                            </li>
                         </ul>
                     </li>
                     <!--<li class="nav-parent">

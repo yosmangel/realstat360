@@ -268,14 +268,24 @@ class Inmueble extends Model
     }
 
     //Scope Search Local
-    public function scopeSearch($query, $key){
+    public function scopeSearch( $query ,$key){
+
         return $query->join('tipos as t','inmuebles.tipo_id','=','t.id')
                      ->join('modalidades as m','inmuebles.id','=','m.inmueble_id')
-                     ->orWhere('inmuebles.nombre','LIKE',"%$key%")
+                     ->join('categorias as cate','inmuebles.categoria_id','=','cate.id')
+                     ->join('ciudades as ciu','inmuebles.ciudad_id','=','ciu.id')
+                     ->join('paises as p','inmuebles.pais_id','=','p.id')
+                     ->Where('inmuebles.nombre','LIKE',"%$key%")
                      ->orWhere('t.nombre','LIKE',"%$key%")
-                     ->orWhere('inmuebles.calle','LIKE',"%$key%");
-                     /*->where('inmuebles.codigo_postal','LIKE',"%$key%")*/
-                    }
+                     ->orWhere('cate.nombre','LIKE',"%$key%")
+                     ->orWhere('ciu.nombre','LIKE',"%$key%")
+                     ->orWhere('p.nombre','LIKE',"%$key%")
+                     ->orWhere('inmuebles.calle','LIKE',"%$key%")
+                     ->orWhere('inmuebles.estado','LIKE',"%$key%")
+                     ->orWhere('inmuebles.zona','LIKE',"%$key%")
+                     ->orWhere('inmuebles.calle','LIKE',"%$key%")
+                     ->orWhere('inmuebles.codigo_postal','LIKE',"%$key%");
+    }
 
      public static function getProperties($id = null){
         /* 

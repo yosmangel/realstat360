@@ -36,7 +36,7 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo="/home";
+    protected $redirectTo="/";
 
     /**
      * Create a new authentication controller instance.
@@ -200,7 +200,7 @@ class AuthController extends Controller
     {
         Auth::guard($this->getGuard())->logout();
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 
      protected function getGuard()

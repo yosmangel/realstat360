@@ -20,7 +20,7 @@ class Cliente extends Model
     'email_otrocont_de2','fecha_nac_otrocon','estado_civil_otrocon','tipo_doc_otrocon',
     'tipo_doc_num_otrocon','idioma_otrocon','pais_otrocont','codigo_postalotrocont',
     'municipio_idotrocont','via_idotrocont','calle_otrocont','numero_otrocont','piso_otrocont',
-    'escalera_otrocont','puerta_otrocont','comentarios'];
+    'escalera_otrocont','puerta_otrocont','comentarios','visitas','presupuesto','medio_contacto'];
 
     public function usuario(){
     	return $this->belongsTo('App\User');

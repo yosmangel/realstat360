@@ -4,8 +4,8 @@
     <!-- start: page -->
     <section class="body-sign">
         <div class="center-sign">
-            <a href="/" class="logo pull-left">
-                <img src="{{ asset('images/realstate360.png') }}" height="54" alt="Logo" />
+            <a href="{{route('home')}}" class="logo pull-left">
+                <img src="{{ asset('images/logo5.png') }}" height="54" alt="Logo" />
             </a>
             <div class="panel panel-sign">
                 <div class="panel-title-sign mt-xl text-right">

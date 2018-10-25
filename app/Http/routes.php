@@ -12,109 +12,180 @@
 |
 */
 
-// Index FRONT DEL SITIO, SIN ESTAR AUTENTICADO
-//Route::get('/', 'IndexController@index');
+/**
+ * Inicio de la aplicacion y Homepage
+ */
 Route::get('/',[
 		'uses'	=>	'HomeController@index',
 		'as'	=>	'home' 
 		]);
 
-// HOME ESTANDO AUTENTICADO
-//Route::get('/', 'HomeController@index')->name('home');
-
-/* 
-	El Registro y Login se realizará desde este Sistema,
-	pero siendo redirigido previamente desde la Plataforma Front 
-	que esta mosntada en otro subdominio.
-	Las Vistas del Registro y Login seran llamadas via GET, pasandoles como 
-	parametro el tipo de Login o Registro que se realizara.
-	Los posibles parametros son
-	0: Propietario, Al registrarse tienen Acceso a la plataforma de 
-		Propietario-Demanda
-	1: Profesionales, Agencias, Agente Inmobiliario: Solo login, 
-		los agentes son creados por otros usuarios profesionales) 
-		Al Registrarse tienen acceso al Sistema para Profesionales
-	Demandantes:
-		 2: Firma Comercial 
-		 3: Marca Comercial 
-		 4: Inversores,
-		 Inicialmente se Accede a traves de una demanda de Inmueble,
-		 donde se guardan las caracteristicas principales como
-		 nombre, apellidos, telefono y correo electronico,
-		 A partir de ahi se sugiere que termine de completar el registro en
-		 el sistema. Al registrarse tiene acceso a la plataforma Propietario-Demanda
-	25: Administrador
-*/
-
-    $this->get('logout', 'Auth\AuthController@logout');
+//Cerrar Sesion
+$this->get('logout', 'Auth\AuthController@logout');
 
 
-        
 
-	Route::get('tipo-login/', function(){
-		return view('Homepage.auth.login_options');
-	})->name('tipo-login');
+Route::get('ingresar/{type?}',[
+	'uses'	=>	'Auth\AuthController@showLoginForm',
+	'as'	=>	'login' 
+]);
+Route::post('ingresar/{type?}',[
+	'uses'		=>	'Auth\AuthController@login',
+	'as'		=>	'login'
+]);
 
-	Route::get('software-inmobiliario/', function(){
-		return view('Homepage.software_inmobiliario');
-	})->name('software-inmobiliario');
-
-	Route::get('sistema-intermediacion/', function(){
-		return view('Homepage.sistema_intermediacion');
-	})->name('sistema-intermediacion');
-
-	
-	
-	Route::get('ingresar/{type?}',[
-		'uses'	=>	'Auth\AuthController@showLoginForm',
-		'as'	=>	'login' 
-		]);
-	Route::post('ingresar/{type?}',[
-		'uses'		=>	'Auth\AuthController@login',
-		'as'		=>	'login'
-	]);
-
-	// Password Reset Routes...
-    $this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
-    $this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
-    $this->post('password/reset', 'Auth\PasswordController@reset');
-
-	/*Route::get('registro/{type?}',[
-		'uses'	=>	'Auth\AuthController@showRegistrationForm',
-		'as'	=>	'register'
-	]);
-	Route::post('registro/{type?}',[
-		'uses'	=>	'Auth\AuthController@register',
-		'as'	=>	'register'
-	]);*/
-	
-	/*
-		DEMANDA RAPIDA
-		*/
-	Route::post('demanda_rapida/', [
-		'uses' => 'DemandaRapidaController@store',
-		'as'	=> 'demanda'
-		]);
-		
-	/* CONTACT US */
-	Route::get('contactanos/', function(){
-		return view('Homepage.contactanos');
-	})->name('contactanos');
-	Route::post('contactanos/', 'ContactanosController@sendContactMail')->name('contactanos');
-		
-		
-		
-Route::get('/home', 'HomeController@index');
+// Password Reset Routes...
+$this->get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+$this->post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
+$this->post('password/reset', 'Auth\PasswordController@reset');
 
 // ACTIVACION DE LA CUENTA VIA EMAIL
 Route::get('user/activation/{token}', 'Auth\AuthController@activateUser')
-	->name('user.activate'); 
+	->name('user.activate');
+
+/*  ************************
+ 	*** PANEL DE Administrativo ***
+ 	************************
+*/
+
+Route::group(['middleware' => ['auth']], function(){
+	
+	Route::resource('user', 'UserController');
+
+	/**
+	 * Rutas de inmueble
+	 */
+
+	Route::resource('inmuebles', 'InmueblesController');
+	
+	Route::get('inmuebles/extras/{id}',[
+			'uses'	=> 'InmueblesController@extras',
+			'as'	=> 'inmuebles.extras'
+		]);
+	Route::get('inmuebles/{id}/eliminar',[
+			'uses'	=> 'InmueblesController@destroy',
+			'as'	=> 'inmuebles.eliminar'
+		]);
+	Route::put('inmuebles/{idinmueble}/portada/{idimagen}',[
+			'uses'	=> 'InmueblesController@portada',
+			'as'	=> 'inmuebles.portada'
+		]);
+	Route::get('inmuebles/{id}/inmuima',[
+			'uses'	=> 'InmueblesController@refresh',
+			'as'	=> 'inmuebles.inmuima'
+		]);
+	Route::get('inmuebles/{id}/cliente',[
+		'uses'	=> 'InmueblesController@refreshTCI',
+		'as'	=> 'inmuebles.cliente'
+		]);
+	Route::get('inmuebles/ultimo',[
+		'uses'	=> 'InmueblesController@ultimo_inmueble',
+		'as'	=> 'inmuebles.ultimo'
+		]);
+	
+	Route::get('lista', [
+			'uses'	=> 'InmueblesController@lista',
+			'as'	=> 'inmuebles.lista'
+		]);
+	Route::get('inmuebles/{id}/inmufile',[
+			'uses'	=> 'InmueblesController@refreshfiles',
+			'as'	=> 'inmuebles.inmufile'
+		]);
+	Route::resource('extras', 'ExtrasController');
+	Route::resource('extrasdemandas', 'ExtrasDemandasController');
+	Route::resource('internos', 'InternosController');
+
+	Route::resource('agentes', 'AgentesController');
+	Route::resource('promociones', 'PromocionesController');
+	Route::resource('clientes','ClientesController');
+	Route::get('clientes/{id}/inmuebles',[
+		'uses'	=> 'ClientesController@inmuebles',
+		'as'	=> 'clientes.inmuebles'
+		]);
+	Route::post('clientes/alta',[
+		'uses'	=> 'ClientesController@alta_rapida',
+		'as'	=> 'clientes.altarapida'
+		]);
+	Route::resource('acciones','AccionesController');
+	Route::get('acciones/agenda/mostrar', [
+			'uses'	=> 'AccionesController@agenda',
+			'as'	=> 'acciones.agenda']
+		);
+	Route::resource('demandas','DemandasController');
+	// Ruta para el enlace de inmuebles coincidentes que estan en la tabla de demandas
+	// solo lanza la vista
+	Route::get('demandas/inmuebles_coincidentes/{id}',[
+		'uses'	=> 'DemandasController@mostrarInmueblesCoincidentes',
+		'as'	=> 'demandas.inmuebles_coincidentes'
+	]);
+	// Desde demandas se determinan los inmuebles coincidentes (esta ruta se usa con ajax)
+	Route::get('demandas/coincidentes/{id}',[
+		'uses'	=> 'DemandasController@inmueblesCoincidentes',
+		'as'	=> 'demandas.inmuebles.coincidentes'
+	]);
+	// Al crear Inmuebles  se determinan las demandas coincidentes
+	Route::get('inmuebles/demandas_coincidentes/{parametro1}/{parametro2}',[
+		'uses'	=> 'InmueblesController@match_demandas',
+		'as'	=> 'inmuebles.demandas_coincidentes'
+	]);
+	// Desde la tabla Inmuebles, para el link a las demandas que conciden con cada inmueble
+	Route::get('inmuebles/lista_demandas_coincidentes/{parametro1}/{parametro2}',[
+		'uses'	=> 'InmueblesController@demandasCoincidentes',
+		'as'	=> 'inmuebles.lista_demandas_coincidentes'
+	]);
+
+	Route::resource('archivos','ArchivosController');
+	Route::resource('imagenes','ImagenesController');
+	Route::get('/imagenes/{imagen}/descargar', 'ImagenesController@descargar')->name('imagenes.descargar');
+
+	Route::get('buscar/',[
+		'uses'	=> 'Buscador\AgenteInmuebleController@index',
+		'as'	=> 'encuentra'
+		]);
+
+	Route::post('buscar/',[
+		'uses'	=> 'Buscador\AgenteInmuebleController@index',
+		'as'	=> 'encuentra'
+		]);
+	
+});
+	
+
+
+//Registro
+
+/*Route::get('registro/{type?}',[
+	'uses'	=>	'Auth\AuthController@showRegistrationForm',
+	'as'	=>	'register'
+]);
+Route::post('registro/{type?}',[
+	'uses'	=>	'Auth\AuthController@register',
+	'as'	=>	'register'
+]);*/
+
+	
+/*
+ * DEMANDA RAPIDA
+*/
+/*
+Route::post('demanda_rapida/', [
+	'uses' => 'DemandaRapidaController@store',
+	'as'	=> 'demanda'
+]);*/
+		
+/* CONTACT US */
+/*Route::get('contactanos/', function(){
+	return view('Homepage.contactanos');
+})->name('contactanos');
+Route::post('contactanos/', 'ContactanosController@sendContactMail')->name('contactanos');
+*/		 
 
 /*  ************************
  	*** PANEL DE DEMANDA ***
  	************************
  	* user_type = 2 *
 */
+/*
 Route::group(['middleware' => ['auth', 'demanda']], function(){
 	Route::get('panel-demanda', [
 		'uses'	=> 'PanelDemandaController@index',
@@ -132,27 +203,14 @@ Route::group(['middleware' => ['auth', 'demanda']], function(){
 		'uses'	=> 'PanelDemandaController@setPreferences',
 		'as'	=> 'preferencias-demanda'
 	]);
-	/*
-		Busqueda Avanzada de Inmuebles (logueado como Demandante)
-	*/
-	Route::post('busqueda-inmuebles/', [
-		'uses' => 'PanelDemandaController@searchProperties',
-		'as'	=> 'busqueda-inmuebles'
-	]);
-	Route::post('contactar-propietario/',[
-		'uses'	=> 'ContactoController@store',
-		'as'	=> 'contactar-propietario'
-	]);
+
+	
 	/*
 		Route::post('contactar-propietario/{inmuebles_id}/{usuario_id}',[
 		'uses'	=> 'PanelDemandaController@askForStablishContact',
 		'as'	=> 'contactar-propietario'
 	]);
-	*/
-	
-
-	
-});
+});*/
 
 /*
 	* Fin del Panel de DEMANDA
@@ -163,6 +221,7 @@ Route::group(['middleware' => ['auth', 'demanda']], function(){
  	******************************
  	* user_type = 0 *
 */ 
+ /*
 Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propietarios'
  	Route::get('panel-propietario', [
 		'uses'	=> 'PanelPropietarioController@index',
@@ -213,7 +272,7 @@ Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propieta
 	})->name('propietarios-gestion-comercial');
  	/* 
 		The menu options for edit property. Only avaylable for Propietaries
-	*/
+	
 	Route::get('inmuebles-editar/{id}', [
 		'uses'	=> 'PanelPropietarioController@editFromPropietary',
 		'as'	=> 'inmuebles-editar'
@@ -234,9 +293,9 @@ Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propieta
 
 	/*
 		CONTACTOS PROPIETARIO-DEMANDANTE
-	*/
-	Route::resource('contacto-propietario-demandante','ContactoController');
-});
+	
+	//Route::resource('contacto-propietario-demandante','ContactoController');
+});*/
 
 /*
 	* Fin del Panel de PROPIETARIOS
@@ -247,10 +306,10 @@ Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propieta
  	*** COMENTARIOS DE INMUEBLES ***
  	********************************
 	Rutas de la seccion de preguntas sobre los inmuebles
-*/
+
  Route::group(['middleware' => 'auth'], function(){ 
 	Route::resource('comentarios', 'ComentariosController');
-});
+});*/
 /*
 	* Fin de COMENTARIOS DE INMUEBLES
 **************************************************************************/ 
@@ -261,15 +320,15 @@ Route::group(['middleware' => ['auth', 'propietarios']], function(){ //'propieta
  	******************************
  	* user_type = 1 *
 */  
-Route::group(['middleware'=>['auth','profesionales']], function(){
+//Route::group(['middleware'=>['auth','profesionales']], function(){
 
 	/* Rutas del Perfil de Usuario
 	***********************/
-	Route::resource('user', 'UserController');
+	//Route::resource('user', 'UserController');
 
 	/* Rutas del Inmueble
 	***********************/
-	Route::resource('inmuebles', 'InmueblesController');
+	/*Route::resource('inmuebles', 'InmueblesController');
 	Route::get('inmuebles/extras/{id}',[
 			'uses'	=> 'InmueblesController@extras',
 			'as'	=> 'inmuebles.extras'
@@ -377,12 +436,11 @@ Route::group(['middleware'=>['auth','profesionales']], function(){
 	Route::post('maper', [
 		'uses'	=> 'InmueblesController@getPropertiesLocation',
 		'as'	=> 'maper'
-		]);
+		]);*/
 
-});
+//});
 /*
 	* Fin del Panel de PROFESIONALES
 */
-Route::auth();
 
-Route::get('/home', 'HomeController@index');
+

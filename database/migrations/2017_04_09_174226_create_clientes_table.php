@@ -37,21 +37,21 @@ class CreateClientesTable extends Migration
             
             $table->string('nombre',50);
             $table->string('apellidos');
-            $table->string('alias',20);
+            $table->string('alias',20)->nullable();
             $table->date('fecha_nacimiento');
-            $table->enum('estado_civil',['Casado','Soltero','Viudo','Divorciado','Separado Judicialmente','Union de Hechos','Otro']);
-            $table->enum('tipo_doc',['NIF','CIF','Pasaporte','NIE','DNI','Otro'])->default('NIF');
+            $table->enum('estado_civil',['Casado','Soltero','Viudo','Divorciado','Separado Judicialmente','Union de Hechos','Otro'])->nullable();
+            $table->enum('tipo_doc',['NIF','CIF','Pasaporte','NIE','DNI','Otro'])->default('NIF')->nullable();
             $table->string('tipo_doc_num')->nullable();
             $table->integer('idioma_id')->unsigned(); 
             $table->foreign('idioma_id')
                   ->references('id')
                   ->on('idiomas')
                   ->onDelete('cascade');
-            $table->enum('tipo_cliente',['Accionista','Agencia Colaboradora','Arrendador','Asociado','Colaborador','Competencia','Comprador','Constructor','Copropietario','Inquilino','Inversor','Operador','Permutante','Potencial Arrendador','Potencial Inquilino','Potencial Comprador','Potencial Vendedor','Prensa Especializada','Promotor','Traspasante','Vendedor','Banco'])->default('Comprador');
+            $table->enum('tipo_cliente',['Accionista','Agencia Colaboradora','Arrendador','Asociado','Colaborador','Competencia','Comprador','Constructor','Copropietario','Inquilino','Inversor','Operador','Permutante','Potencial Arrendador','Potencial Inquilino','Potencial Comprador','Potencial Vendedor','Prensa Especializada','Promotor','Traspasante','Vendedor','Banco'])->default('Comprador')->nullable();
             // Datos internos
-            $table->enum('origen',['Acciones de Buzoneo','Anuncio neon','anuncit.com','Buscador Web 2','cartel 2', 'Cliente recomendado','Colaborador','dividendo.es','EL CORREO','granmanzana.es','Idealista','Inmoportalix','Jornada Puertas Abiertas','Llamada Telefonica','micasa.es','mitula.com','Oficina/Escaparate','otro','pisocasas.com','plandeprotecciondealquiler.com','Redes Sociales','trovimap.com','una web','wordinmo.com'])->default('otro');
-            $table->date('fecha_alta');
-            $table->enum('estado',['Inactivo','Activo','Potencial','Activo A','Activo B','Activo C','Activo D']);
+            $table->enum('origen',['Acciones de Buzoneo','Anuncio neon','anuncit.com','Buscador Web 2','cartel 2', 'Cliente recomendado','Colaborador','dividendo.es','EL CORREO','granmanzana.es','Idealista','Inmoportalix','Jornada Puertas Abiertas','Llamada Telefonica','micasa.es','mitula.com','Oficina/Escaparate','otro','pisocasas.com','plandeprotecciondealquiler.com','Redes Sociales','trovimap.com','una web','wordinmo.com'])->default('otro')->nullable();
+            $table->date('fecha_alta')->nullable();
+            $table->enum('estado',['Inactivo','Activo','Potencial','Activo A','Activo B','Activo C','Activo D'])->nullable();
 
             // DATOS DE CONTACTO
             $table->string('telefono')->nullable();
@@ -107,14 +107,14 @@ class CreateClientesTable extends Migration
             //    1 Sr.
             //    2 Sra.
             $table->enum('calificativo_otrocont', [1, 2])->default(1);
-            $table->string('nombre_otrocont',50);
-            $table->string('ape_otrocont');
+            $table->string('nombre_otrocont',50)->nullable();
+            $table->string('ape_otrocont')->nullable();
             $table->string('tel_otrocont')->nullable();
-            $table->enum('tel_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro');
+            $table->enum('tel_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro')->nullable();
             $table->string('mov_otrocont')->nullable();
-            $table->enum('mov_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro');
+            $table->enum('mov_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro')->nullable();
             $table->string('fax_otrocont')->nullable();
-            $table->enum('fax_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro');
+            $table->enum('fax_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro')->nullable();
             $table->string('email_otrocont')->nullable();
             $table->enum('email_otrocont_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro');
 
@@ -127,11 +127,11 @@ class CreateClientesTable extends Migration
             $table->string('email_otrocont2')->nullable();
             $table->enum('email_otrocont_de2',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro');
 
-            $table->date('fecha_nac_otrocon');
-            $table->enum('estado_civil_otrocon',['Casado','Soltero','Viudo','Divorciado','Separado Judicialmente','Union de Hechos','Otro']);
+            $table->date('fecha_nac_otrocon')->nullable();
+            $table->enum('estado_civil_otrocon',['Casado','Soltero','Viudo','Divorciado','Separado Judicialmente','Union de Hechos','Otro'])->nullable();
             $table->enum('tipo_doc_otrocon',['NIF','CIF','Pasaporte','NIE','DNI','Otro'])->default('NIF');
             $table->string('tipo_doc_num_otrocon')->nullable();
-            $table->integer('idioma_otrocon')->unsigned(); 
+            $table->integer('idioma_otrocon')->unsigned()->nullable(); 
             $table->foreign('idioma_otrocon')
                   ->references('id')
                   ->on('idiomas')

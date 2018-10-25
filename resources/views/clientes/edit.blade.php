@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Nuevo Cliente')
+@section('title','Editar Cliente')
 @section('css')
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.theme.css') }}">
@@ -34,7 +34,7 @@
 							<div class="col-xs-12 col-md-12">
 								<section class="panel form-wizard" id="w1">
 									<header class="panel-heading">
-										<h2 class="panel-title">Nuevo Cliente</h2>
+										<h2 class="panel-title">Editar Cliente</h2>
 									</header>
 									<div class="panel-body panel-body-nopadding">
 										@include('clientes.sections.principales', ['cliente' => $cliente, 'url' => '/clientes/'.$cliente->id, 'method' => 'PUT', 'texto_submit' => 'Editar'] )

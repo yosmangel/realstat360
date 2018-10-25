@@ -34,36 +34,25 @@ class InmueblesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id = null)
+    public function index()
     {   
-        if ($id == null) {
-            /* Getting the properties list */
-            /*$inmuebles =  Inmueble::select('id','tipo_id','estado','superficie',
-                                           'ciudad_id','calle', 'numero','id_portada','pais_id',
-                                           'habitaciones','banos','agencia_id')
-                                    ->where('usuario_id','=',Auth::user()->id)
-                                    ->where('active',1)
-                                    ->orderBy('id','DES')
-                                    ->get();*/
-
-            $inmuebles = Inmueble::getProperties();
+        
+        $inmuebles = Inmueble::getProperties();
             
-            /* Getting the property data through the relational model */
-            $inmuebles->each(function($inmuebles){
-                $inmuebles->imagenes;
-                $inmuebles->pais;
-                $inmuebles->getAgenceId();
-            });
+        /* Getting the property data through the relational model */
+        $inmuebles->each(function($inmuebles){
+            $inmuebles->imagenes;
+            $inmuebles->pais;
+            $inmuebles->getAgenceId();
+        });
 
-            /* Getting the number of Demands by Property */
-            $demCoincidentes = [];
-            foreach ($inmuebles as $inmueble) {
-                $demCoincidentes[$inmueble->id] = $inmueble->getDemands();
-            };
-            return view('inmuebles.index', compact('inmuebles','demCoincidentes'));
-        }else{
-            return $this->show($id);
-        };  
+        /* Getting the number of Demands by Property */
+        $demCoincidentes = [];
+        foreach ($inmuebles as $inmueble) {
+            $demCoincidentes[$inmueble->id] = $inmueble->getDemands();
+        };
+        return view('inmuebles.index', compact('inmuebles','demCoincidentes'));
+        
     }
 
     public function buscarcp(){
@@ -498,7 +487,8 @@ class InmueblesController extends Controller
 
         /* DATOS INTERNOS */
         $inmueble_interno = $inmueble->interno;
-        if (count($inmueble_interno) == 0) {
+        
+        if (empty($inmueble_interno)) {
             $inmueble_interno = [];
         }
         $inmueble->via;

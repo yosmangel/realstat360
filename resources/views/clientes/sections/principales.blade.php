@@ -7,7 +7,7 @@
 	<div class="row">
 		<div id="response" class="alert alert-success" role="alert" style="display:none">
 		</div>
-		<form class="form-horizontal" novalidate="novalidate" action="{{ url($url) }}" method="post">
+		<form class="form-horizontal" novalidate="novalidate" action="{{ url($url) }}" method="post" id="frmCliente" name="frmCliente">
 			<input name="_token" type="hidden" value = "{{ csrf_token() }}" id="token">
 			{{ method_field($method) }}
 			<div class="col-md-12">
@@ -22,27 +22,26 @@
 									@if($cliente->persorgz == 1 || $cliente->persorgz == null)
 										<div class="col-xs-12 col-sm-4 col-md-3">
 											<div class="radio-custom radio-primary">
-													<input type="radio" id="persorgz1" name="persona_organizacion" value="1" checked="checked">
-												<label for="persona">Persona</label>
-											</div>
-										</div>
-										<div class="col-xs-12 col-sm-4 col-md-3">
-										<div class="radio-custom radio-warning">
-												<input type="radio" id="persorgz2" name="persona_organizacion" value="2">
-											<label>Organización</label>
-										</div>
-									</div>
-									@endif
-									@if($cliente->persorgz == 2)
-										<div class="col-xs-12 col-sm-4 col-md-3">
-											<div class="radio-custom radio-primary">
-													<input type="radio" id="persorgz1" name="persona_organizacion" value="1">
+												<input type="radio" id="persorgz1" name="persona_organizacion" value="1" checked="checked">
 												<label for="persona">Persona</label>
 											</div>
 										</div>
 										<div class="col-xs-12 col-sm-4 col-md-3">
 											<div class="radio-custom radio-warning">
-													<input type="radio" id="persorgz2" name="persona_organizacion" value="2" checked="checked">
+													<input type="radio" id="persorgz2" name="persona_organizacion" value="2">
+													<label>Organización</label>
+											</div>
+										</div>
+									@else
+										<div class="col-xs-12 col-sm-4 col-md-3">
+											<div class="radio-custom radio-primary">
+												<input type="radio" id="persorgz1" name="persona_organizacion" value="1">
+												<label for="persona">Persona</label>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-4 col-md-3">
+											<div class="radio-custom radio-warning">
+												<input type="radio" id="persorgz2" name="persona_organizacion" value="2" checked="checked">
 												<label>Organización</label>
 											</div>
 										</div>
@@ -64,8 +63,7 @@
 												<label for="radioSra">Señora (Sra.)</label>
 											</div>
 										</div>
-									@endif
-									@if($cliente->calificativo == 2)
+									@else
 										<label class="col-xs-12 col-sm-4 control-label" for="calificativo"></label>
 										<div class="hidden-xs hidden-sm col-md-1"></div>
 										<div class="col-xs-12 col-sm-4 col-md-3">
@@ -83,15 +81,29 @@
 									@endif
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="w1-nombre">Nombre (*)</label>
+									<label class="col-sm-4 control-label" for="w1-email">Correo Electrónico</label>
 									<div class="col-sm-7">
-										<input type="text" class="form-control input-sm" name="nombre" id="w1-nombre" required value="{{ $cliente->nombre }}">
+										<input type="text" class="form-control input-sm" name="email" id="w1-email" value="{{ $cliente->email }}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="w1-telefono">
+										Teléfono <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
+									</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control input-sm" name="telefono" id="w1-telefono" value="{{ $cliente->telefono }}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="w1-nombre">Nombre</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control input-sm" name="nombre" id="w1-nombre"  value="{{ $cliente->nombre }}">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-apellidos">Apellidos</label>
 									<div class="col-sm-7">
-										<input type="text" class="form-control input-sm" name="apellidos" id="w1-apellidos" required value="{{ $cliente->apellidos }}">
+										<input type="text" class="form-control input-sm" name="apellidos" id="w1-apellidos"  value="{{ $cliente->apellidos }}">
 									</div>
 								</div>
 								<div class="form-group">
@@ -111,7 +123,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<label class="col-md-4 control-label" for="w1-estado-civil">Estado Civil</label>
 									<div class="col-md-7">
 										<select data-plugin-selectTwo class="form-control populate select2-ajax" name="estado_civil" id="w1-estado-civil" style="width: 100%">
@@ -126,36 +138,33 @@
 											<option value="Otro">Otro</option>
 										</select>
 									</div>
-								</div>
+								</div>-->
 								<div class="form-group">
-									<label class="col-md-4 control-label" for="w1-tipo" required>Tipo</label>
+									<label class="col-md-4 control-label" for="w1-tipo" >Tipo de documento</label>
 									<div class="col-md-3">
 										<select name="tipo_doc" id="w1-tipo" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-											<option value="{{ $cliente->tipo_doc }}">{{ $cliente->tipo_doc }}</option>
-											<option value="">::Seleccionar::</option>
-											<option value="CIF">CIF</option>
-											<option value="NIF">NIF</option>
-											<option value="Pasaporte">Pasaporte</option>
-											<option value="NIE">NIE</option>
-											<option value="DNI">DNI</option>
-											<option value="Otros">Otros</option>
+											<option value="" {{ $cliente->tipo_doc == '' || $cliente->tipo_doc==null ? 'selected' : '' }}>::Seleccionar::</option>
+											<option value="CIF" {{ $cliente->tipo_doc == 'CIF' ? 'selected' : '' }}>CIF</option>
+											<option value="NIF" {{ $cliente->tipo_doc == 'NIF' ? 'selected' : '' }}>NIF</option>
+											<option value="Pasaporte" {{ $cliente->tipo_doc == 'Pasaporte' ? 'selected' : '' }}>Pasaporte</option>
+											<option value="NIE" {{ $cliente->tipo_doc == 'NIE' ? 'selected' : '' }}>NIE</option>
+											<option value="DNI" {{ $cliente->tipo_doc == 'DNI' ? 'selected' : '' }}>DNI</option>
+											<option value="Otros" {{ $cliente->tipo_doc == 'Otros' ? 'selected' : '' }}>Otros</option>
 										</select>
 									</div>
 									<div class="col-md-4">
-										<input type="text" class="form-control input-sm" name="tipo_doc_num" id="w1-tipo-number" required value="{{ $cliente->tipo_doc_num }}">
+										<input type="text" class="form-control input-sm" name="tipo_doc_num" id="w1-tipo-number"  value="{{ $cliente->tipo_doc_num }}">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="w1-idioma">Idioma</label>
 									<div class="col-md-7">
 										<select data-plugin-selectTwo class="form-control populate" id="w1-idioma" name="idioma_id">
-											@if($cliente->idioma_id != null)
-												<option value="{{ $idiomas[$cliente->idioma_id - 1]->id }}">{{ $idiomas[$cliente->idioma_id - 1]->nombre }}</option>
-											@else
-												<option value="">::Seleccionar::</option>
+											@if($cliente->idioma_id == null)
+												<option value="" selected>::Seleccionar::</option>
 											@endif
 											@foreach($idiomas as $idioma)
-												<option value="{{ $idioma->id }}">{{ $idioma->nombre }}</option>
+												<option value="{{ $idioma->id }}" {{ $cliente->idioma_id == $idioma->id ? 'selected' : '' }}>{{ $idioma->nombre }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -163,13 +172,12 @@
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-tipo-cliente">Tipo Clientes</label>
 									<div class="col-sm-7">
-										<select name="tipo_cliente" id="w1-tipo-cliente" data-plugin-selectTwo class="form-control populate" style="width: 100%" required>
-											@if($cliente->tipo_cliente != null)
-												<option value="{{ $cliente->tipo_cliente }}">{{ $cliente->tipo_cliente }}</option>
-											@else
-												<option value="">::Seleccionar::</option>
-											@endif
-											<option value="Accionista">Accionista</option>
+										<select name="tipo_cliente" id="w1-tipo-cliente" data-plugin-selectTwo class="form-control populate" style="width: 100%" >
+											<option value="" {{ $cliente->tipo_cliente == '' || $cliente->tipo_cliente ==null ? 'selected' : '' }}>::Seleccionar::</option>
+											<option value="Inversor" {{ $cliente->tipo_cliente == 'Inversor' ? 'selected' : '' }}>Inversor</option>
+											<option value="Cliente final" {{ $cliente->tipo_cliente == 'Cliente final' ? 'selected' : '' }}>Cliente final</option>
+
+											<!--<option value="Accionista">Accionista</option>
 											<option value="Agencia Colaboradora">Agencia Colaboradora</option>
 											<option value="Arrendador">Arrendador</option>
 											<option value="Asociado">Asociado</option>
@@ -190,7 +198,7 @@
 											<option value="Promotor">Promotor</option>
 											<option value="Traspasante">Traspasante</option>
 											<option value="Vendedor">Vendedor</option>
-											<option value="Banco">Banco</option>
+											<option value="Banco">Banco</option>-->
 										</select>
 									</div>
 									<div class="col-md-1">
@@ -199,7 +207,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-origen">Origen</label>
 									<div class="col-sm-7">
 										<select name="origen" id="w1-origen" data-plugin-selectTwo class="form-control populate" style="width: 100%">
@@ -234,8 +242,8 @@
 							                <option value="wordinmo.com">wordinmo.com</option>
 										</select>
 									</div>
-								</div>
-								<div class="form-group">
+								</div>-->
+								<!--<div class="form-group">
 									<label class="col-md-4 control-label" for="w1-fecha-alta">Fecha Alta</label>
 									<div class="col-md-7">
 										<div class="input-group">
@@ -245,11 +253,11 @@
 											<input id="w1-fecha-alta" type="date" class="form-control" name="fecha_alta" value="{{ $cliente->fecha_alta }}">
 										</div>
 									</div>
-								</div>
-								<div class="form-group">
+								</div>-->
+								<!--<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-estado">Estado</label>
 									<div class="col-sm-7">
-										<select name="estado" id="w1-estado" data-plugin-selectTwo class="form-control populate" style="width: 100%" required>
+										<select name="estado" id="w1-estado" data-plugin-selectTwo class="form-control populate" style="width: 100%" >
 											@if($cliente->estado != null)
 												<option value="{{ $cliente->estado }}">{{ $cliente->estado }}</option>
 											@else
@@ -264,6 +272,18 @@
 											<option value="Activo D">Activo D</option>
 										</select>
 									</div>
+								</div>-->
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="w1-visitas">Visitas</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control input-sm" name="visitas" id="w1-visitas"  value="{{ $cliente->visitas }}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="w1-presupuesto">Presupuesto</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control input-sm" name="presupuesto" id="w1-presupuesto"  value="{{ $cliente->presupuesto }}">
+									</div>
 								</div>
 							</div>
 						</section>
@@ -273,188 +293,23 @@
 							</header>
 							<div class="panel-body">
 								<div class="form-group">
-									<label class="col-xs-12 col-md-4 control-label" for="w1-telefono">
-									Teléfono 
+									<label class="col-sm-4 control-label" id="w1-mcontacto">Medio de contacto</label>
+									<div class="col-sm-7">
+										<select data-plugin-selectTwo class="form-control populate" id="w1-mcontacto" name="medio_contacto">
+											<option value="" {{ $cliente->medio_contacto == '' || $cliente->medio_contacto ==null ? 'selected' : '' }}>::Seleccionar::</option>
+											<option value="Telefono" {{ $cliente->medio_contacto == 'Telefono' ? 'selected' : '' }}>Télefono</option>
+											<option value="Correo" {{ $cliente->medio_contacto == 'Correo' ? 'selected' : '' }}>Correo</option>
+											<option value="Movil" {{ $cliente->medio_contacto == 'Movil' ? 'selected' : '' }}>Móvil</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-xs-12 col-md-4 control-label" for="w1-movil">
+									Móvil 
 										<i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
 									</label>
-									<div class="col-xs-6 col-md-3">
-										<input type="text" class="form-control input-sm" name="telefono" id="w1-telefono" value="{{ $cliente->telefono }}">
-									</div>
-									<div class="col-xs-6 col-md-2">
-										<select name="telefono_de" id="w1-telefono-de" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-											@if($cliente->telefono_de != null)
-												<option value="{{ $cliente->telefono_de }}" selected>{{ $cliente->telefono_de }}</option>
-											@else
-												<option value="" selected>::Seleccionar::</option>
-											@endif
-											<option value="Casa">Casa</option>
-											<option value="Otro">Otro</option>
-											<option value="Personal">Personal</option>
-											<option value="Principal">Principal</option>
-											<option value="Trabajo">Trabajo</option>
-										</select>
-									</div>
-									<div class="col-md-2">Añadir
-										<a role="button" data-toggle="collapse" href="#telefono2" aria-expanded="false" aria-controls="collapseExample">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i>
-										</a>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="collapse" id="telefono2">
-										<label class="col-md-4 control-label" for="w1-telefono2">
-											Teléfono <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
-										</label>
-										<div class="col-md-3">
-											<input type="text" class="form-control input-sm" name="telefono2" id="w1-telefono2" >
-										</div>
-										<div class="col-md-2">
-											<select name="telefono_de2" id="w1-telefono-de2" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-												<option value="" selected>::Seleccionar::</option>
-												<option value="Casa">Casa</option>
-												<option value="Otro">Otro</option>
-												<option value="Personal">Personal</option>
-												<option value="Principal">Principal</option>
-												<option value="Trabajo">Trabajo</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-4 control-label" for="w1-movil">
-										Móvil <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
-									</label>
-									<div class="col-md-3">
+									<div class="col-sm-7">
 										<input type="text" class="form-control input-sm" name="movil" id="w1-movil" value="{{ $cliente->movil }}">
-									</div>
-									<div class="col-md-2">
-										<select name="movil_de" id="w1-movil-de" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-											@if($cliente->movil_de != null)
-												<option value="{{ $cliente->movil_de }}" selected>{{ $cliente->movil_de }}</option>
-											@else
-												<option value="" selected>::Seleccionar::</option>
-											@endif
-											<option value="Casa">Casa</option>
-											<option value="Otro">Otro</option>
-											<option value="Personal">Personal</option>
-											<option value="Principal">Principal</option>
-											<option value="Trabajo">Trabajo</option>
-										</select>
-									</div>
-									<div class="col-md-2">Añadir
-										<a role="button" data-toggle="collapse" href="#movil2" aria-expanded="false" aria-controls="collapsemovil2">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i>
-										</a>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="collapse" id="movil2">
-										<label class="col-md-4 control-label" for="w1-movil2">
-											Móvil <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
-										</label>
-										<div class="col-md-3">
-											<input type="text" class="form-control input-sm" name="movil2" id="w1-movil2" >
-										</div>
-										<div class="col-md-2">
-											<select name="movil_de2" id="w1-movil-de2" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-												<option value="" selected>::Seleccionar::</option>
-												<option value="Casa">Casa</option>
-												<option value="Otro">Otro</option>
-												<option value="Personal">Personal</option>
-												<option value="Principal">Principal</option>
-												<option value="Trabajo">Trabajo</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-4 control-label" for="w1-fax">
-										Fax <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
-									</label>
-									<div class="col-md-3">
-										<input type="text" class="form-control input-sm" name="fax" id="w1-fax" value="{{ $cliente->fax }}">
-									</div>
-									<div class="col-md-2">
-										<select name="fax_de" id="w1-fax-de" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-											@if($cliente->fax_de != null)
-												<option value="{{ $cliente->fax_de }}" selected>{{ $cliente->fax_de }}</option>
-											@else
-												<option value="" selected>::Seleccionar::</option>
-											@endif
-											<option value="Casa">Casa</option>
-											<option value="Otro">Otro</option>
-											<option value="Personal">Personal</option>
-											<option value="Principal">Principal</option>
-											<option value="Trabajo">Trabajo</option>
-										</select>
-									</div>
-									<div class="col-md-2">Añadir
-										<a role="button" data-toggle="collapse" href="#fax2" aria-expanded="false" aria-controls="collapsemfax2">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i>
-										</a>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="collapse" id="fax2">
-										<label class="col-md-4 control-label" for="w1-fax2">
-											Fax <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
-										</label>
-										<div class="col-md-3">
-											<input type="text" class="form-control input-sm" name="fax" id="w1-fax2" >
-										</div>
-										<div class="col-md-2">
-											<select name="fax_de2" id="w1-fax-de2" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-												<option value="" selected>::Seleccionar::</option>
-												<option value="Casa">Casa</option>
-												<option value="Otro">Otro</option>
-												<option value="Personal">Personal</option>
-												<option value="Principal">Principal</option>
-												<option value="Trabajo">Trabajo</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-md-4 control-label" for="w1-email">Correo Electrónico</label>
-									<div class="col-md-3">
-										<input type="email" class="form-control input-sm" name="email" id="w1-email" value="{{ $cliente->email }}">
-									</div>
-									<div class="col-md-2">
-										<select name="email_de" id="w1-email-de" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-											@if($cliente->email_de != null)
-												<option value="{{ $cliente->email_de }}" selected>{{ $cliente->email_de }}</option>
-											@else
-												<option value="" selected>::Seleccionar::</option>
-											@endif
-											<option value="Casa">Casa</option>
-											<option value="Otro">Otro</option>
-											<option value="Personal">Personal</option>
-											<option value="Principal">Principal</option>
-											<option value="Trabajo">Trabajo</option>
-										</select>
-									</div>
-									<div class="col-md-2">Añadir
-										<a role="button" data-toggle="collapse" href="#email2" aria-expanded="false" aria-controls="collapseemail2">
-											<i class="fa fa-plus-circle" aria-hidden="true"></i>
-										</a>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="collapse" id="email2">
-										<label class="col-md-4 control-label" for="w1-email2">Correo Electrónico</label>
-										<div class="col-md-3">
-											<input type="email" class="form-control input-sm" name="email2" id="w1-email2" >
-										</div>
-										<div class="col-md-2">
-											<select name="email_de2" id="w1-email-de2" data-plugin-selectTwo class="form-control populate" style="width: 100%">
-												<option value="" selected>::Seleccionar::</option>
-												<option value="Casa">Casa</option>
-												<option value="Otro">Otro</option>
-												<option value="Personal">Personal</option>
-												<option value="Principal">Principal</option>
-												<option value="Trabajo">Trabajo</option>
-											</select>
-										</div>
 									</div>
 								</div>
 								<div class="form-group">
@@ -474,13 +329,11 @@
 									<label class="col-sm-4 control-label" id="w1-pais">País</label>
 									<div class="col-sm-7">
 										<select data-plugin-selectTwo class="form-control populate" id="w1-pais" name="pais_id">
-											@if($cliente->pais_id != null)
-												<option value="{{ $paises[$cliente->pais_id - 1]->id }}" selected>{{ $paises[$cliente->pais_id - 1]->nombre }}</option>
-											@else
+											@if($cliente->pais_id == null || $cliente->pais_id=="")
 												<option value="" selected>::Seleccionar::</option>
 											@endif
 											@foreach($paises as $pais)
-												<option value="{{ $pais->id }}">{{ $pais->nombre }}</option>
+												<option value="{{ $pais->id }}" {{ $cliente->pais_id == $pais->id ? 'selected' : '' }}>{{ $pais->nombre }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -498,13 +351,11 @@
 									<label class="col-sm-4 control-label">Municicpio</label>
 									<div class="col-sm-7">
 										<select data-plugin-selectTwo class="form-control populate" name="municipio_id">
-											@if($cliente->municipio_id != null)
-												<option value="{{ $municipios[$cliente->municipio_id - 1]->id }}" selected>{{ $municipios[$cliente->municipio_id - 1]->nombre }}</option>
-											@else
+											@if($cliente->municipio_id == null)
 												<option value="" selected>::Seleccionar::</option>
 											@endif
 											@foreach($municipios as $municipio)
-												<option value="{{ $municipio->id }}">{{ $municipio->nombre }}</option>
+												<option value="{{ $municipio->id }}" {{ $cliente->municipio_id == $municipio->id ? 'selected' : '' }}>{{ $municipio->nombre }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -513,13 +364,11 @@
 									<label class="col-sm-4 control-label" for="w1-tipovia">Tipo de Vía</label>
 									<div class="col-sm-7">
 										<select data-plugin-selectTwo class="form-control populate" name="via_id" id="w1-tipovia">
-											@if($cliente->via_id != null)
-												<option value="{{ $vias[$cliente->via_id - 1]->id }}" selected>{{ $vias[$cliente->via_id - 1]->nombre }}</option>
-											@else
+											@if($cliente->via_id == null)
 												<option value="" selected>::Seleccionar::</option>
 											@endif
 											@foreach($vias as $via)
-												<option value="{{ $via->id }}">{{ $via->nombre }}</option>
+												<option value="{{ $via->id }}" {{ $cliente->via_id == $via->id ? 'selected' : '' }}>{{ $via->nombre }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -538,13 +387,11 @@
 									<label class="col-sm-4 col-md-1 control-label" for="w1-piso">Piso.</label>
 									<div class="col-sm-7 col-md-3">
 										<select data-plugin-selectTwo class="form-control populate" id="w1-piso" name="piso">
-											@if($cliente->piso != null)
-												<option value="{{ $cliente->piso }}" selected>{{ $cliente->piso }}</option>
-											@else
+											@if($cliente->piso == null)
 												<option value="" selected>::Seleccionar::</option>
 											@endif
 											@foreach($pisos as $piso)
-												<option value="{{ $pisoid++ }}">{{ $piso }}</option>
+												<option value="{{ $piso }}" {{ $cliente->piso == $piso ? 'selected' : '' }}>{{ $piso }}</option>
 											@endforeach
 										</select>
 									</div>
@@ -559,14 +406,14 @@
 										<input type="text" class="form-control input-sm" name="puerta" id="w1-puerta" value="{{ $cliente->puerta }}">
 									</div>
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<div class="col-md-7 col-md-offset-4">
 										<button type="button" class="mb-xs mt-xs mr-xs btn btn-danger"><i class="el el-map-marker-alt"></i> Comprobar dirección en el mapa</button>
 									</div> 
-								</div>
+								</div>-->
 							</div>
 						</section>
-						<section class="panel panel-featured panel-featured-primary">
+						<!--<section class="panel panel-featured panel-featured-primary">
 							<header class="panel-heading">
 								<h2 class="panel-title">Otras Personas de Contacto</h2>
 							</header>
@@ -916,7 +763,7 @@
 									</div>
 								</div>
 							</div>
-						</section>
+						</section>-->
 						<section class="panel panel-featured panel-featured-primary">
 							<header class="panel-heading">
 								<h2 class="panel-title">Comentarios</h2>
@@ -933,7 +780,7 @@
 			</div>
 			<div class="col-xs-12">
 				<div class="row text-center">
-					<button type="submit" class="mb-xs mt-xs mr-xs btn btn-success"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ $texto_submit }} Usuario</button> <!--  btn-submit -->
+					<button type="submit" class="mb-xs mt-xs mr-xs btn btn-success btn-submit"><i class="fa fa-floppy-o" aria-hidden="true"></i> {{ $texto_submit }} Usuario</button> <!--  btn-submit -->
 				</div>
 				<br><br>
 			</div>

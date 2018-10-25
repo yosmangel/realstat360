@@ -18,6 +18,7 @@ use App\Entidad;
 use App\Inmueble;
 use App\Modalidad;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ClientesController extends Controller
 {
@@ -141,10 +142,14 @@ class ClientesController extends Controller
         $tipologias = [];
         $inmuebles_cliente = [];
         $entidades = Entidad::all();
+        $idiomas=Idioma::all();
+        $paises=Pais::all();
+        $municipios=Municipio::all();
+        $vias=Via::all();
         $monedas = ['EUR - Euro', 'USD - Dólar estadounidense'];
         $pisoid = 1;
         $pisos = ['Sótano', 'Subsótano', 'Bajos', 'Entresuelo','Principal','1ro','2do','3ro','4to','5to'];
-        return view('clientes.create', compact('cliente','pisos','pisoid','promociones','tipologias','entidades','monedas','inmuebles_cliente'));
+        return view('clientes.create', compact('cliente','pisos','pisoid','promociones','tipologias','entidades','monedas','inmuebles_cliente','idiomas','paises','municipios','vias'));
     }
 
     /**
@@ -159,34 +164,43 @@ class ClientesController extends Controller
 
             $messages = [
                 'nombre.required'       => 'Debe ingresar el nombre del cliente.',
-                'nombre.min'            => 'El nombre del cliente debe tener al menos 3 caracteres.',
+                'nombre.min'            => 'El nombre del cliente debe tener al menos 3 carácteres.',
                 'apellidos.required'    =>'El apellido del cliente es obligatorio.',
+                'apellidos.min'         => 'El apellido del cliente debe tener al menos 3 carácteres.',
+                'fecha_nacimiento.required'=> 'La fecha de nacimiento del cliente es obligatoria.',
                 'tipo_doc.required'     => 'El tipo de documento es obligatorio.',
-                'tipo_doc_num.required' => 'Entre un número de documento.',
-                'tipo_cliente.required' => 'Entre el tipo de cliente.',
-                'estado.required'       => 'Falta el estado del cliente.',
-                'pais_id.required'      => 'El país del cliente es obligatorio.',
-                'comentarios.required'  => 'Debe poner algún comentario del cliente.',
+                'tipo_doc_num.required' => 'El número de documento del cliente es obligatorio.',
+                'tipo_doc_num.min' => 'El número de documento del cliente debe tener al menos 5 carácteres.',
+                'idioma_id.required' => 'El idioma del cliente es obligatorio.',
+                'tipo_cliente.required' => 'El tipo de cliente es obligatorio.',
+                'visitas.required'      => 'Las visitas del cliente es obligatorio.',
+                'presupuesto.required'  => 'El presupuesto del cliente es obligatorio.',
+                'presupuesto.numeric'   => 'Debe ingresar un valor neto sin decimales ni puntos para el presupuesto.',
+                'email.required'=> 'Debe ingresar el correo del cliente.',
+                'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
+                'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
             ];
             $this->validate($request,[
+                'email'        => 'required|email',
+                'telefono'      => 'required',
                 'nombre'        => 'required|min:3',
-                'apellidos'     => 'required',
+                'apellidos'     => 'required|min:3',
+                'fecha_nacimiento'=> 'required',
                 'tipo_doc'      => 'required',
-                'tipo_doc_num'  => 'required',
+                'tipo_doc_num'  => 'required|min:5',
+                'idioma_id'     => 'required',
                 'tipo_cliente'  => 'required',
-                'estado'        => 'required',
-                'pais_id'       => 'required',
-                'comentarios'   => 'required',
+                'visitas'        => 'required',
+                'presupuesto'       => 'required|numeric'
                 ],$messages);
             $cliente = new Cliente();
             $cliente->usuario_id = Auth::user()->id;
-            $cliente->fill($request->all());
+            $cliente->fill(array_filter($request->all()));
             if ($cliente->save()) {
-                $nuevo_cliente = Cliente::orderBy('id','DES')->first();
                 $path_base = base_path();
                 $path_public = public_path();
                 $url_base = url('/');
-                return response()->json(["mensaje" => "Se ha dado de alta al nuevo cliente.", 'idcliente' => $nuevo_cliente->id, 'path_base'=> $path_base, 'path_public' => $path_public, 'url_base' => $url_base ]);
+                return response()->json(["mensaje" => "Se ha dado de alta al nuevo cliente.", 'idcliente' => $cliente->id, 'path_base'=> $path_base, 'path_public' => $path_public, 'url_base' => $url_base ]);
             }else{
                 return response()->json(["mensaje" => "Ocurrió un error al intentar dar de alta al cliente."]);
             }
@@ -287,9 +301,24 @@ class ClientesController extends Controller
     public function edit($id)
     {
         $cliente = Cliente::find($id);
+        $agencia = Agencia::where('user_id',$cliente->id)->get();
+
+        if (count($agencia)>0) {
+            $promociones = Promocion::where('agencia_id',$agencia[0]->id)->get();
+        }else{
+            $promociones = [];
+        };
+        $tipologias = [];
+        $inmuebles_cliente = [];
+        $entidades = Entidad::all();
+        $idiomas=Idioma::all();
+        $paises=Pais::all();
+        $municipios=Municipio::all();
+        $vias=Via::all();
+        $monedas = ['EUR - Euro', 'USD - Dólar estadounidense'];
         $pisoid = 1;
         $pisos = ['Sótano', 'Subsótano', 'Bajos', 'Entresuelo','Principal','1ro','2do','3ro','4to','5to'];
-        return view('clientes.edit',compact('cliente', 'pisos','pisoid'));
+        return view('clientes.edit',compact('cliente','pisos','pisoid','promociones','tipologias','entidades','monedas','inmuebles_cliente','idiomas','paises','municipios','vias'));
     }
 
     /**
@@ -301,13 +330,53 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $cliente = Cliente::find($id);
-        $cliente->fill($request->all());
-        if ($cliente->update()) {
+        if ($request->ajax()) {
+
+            $messages = [
+                'nombre.required'       => 'Debe ingresar el nombre del cliente.',
+                'nombre.min'            => 'El nombre del cliente debe tener al menos 3 carácteres.',
+                'apellidos.required'    =>'El apellido del cliente es obligatorio.',
+                'apellidos.min'         => 'El apellido del cliente debe tener al menos 3 carácteres.',
+                'fecha_nacimiento.required'=> 'La fecha de nacimiento del cliente es obligatoria.',
+                'tipo_doc.required'     => 'El tipo de documento es obligatorio.',
+                'tipo_doc_num.required' => 'El número de documento del cliente es obligatorio.',
+                'tipo_doc_num.min' => 'El número de documento del cliente debe tener al menos 5 carácteres.',
+                'idioma_id.required' => 'El idioma del cliente es obligatorio.',
+                'tipo_cliente.required' => 'El tipo de cliente es obligatorio.',
+                'visitas.required'      => 'Las visitas del cliente es obligatorio.',
+                'presupuesto.required'  => 'El presupuesto del cliente es obligatorio.',
+                'presupuesto.numeric'   => 'Debe ingresar un valor neto sin decimales ni puntos para el presupuesto.',
+                'email.required'=> 'Debe ingresar el correo del cliente.',
+                'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
+                'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
+            ];
+            $this->validate($request,[
+                'email'        => 'required|email',
+                'telefono'      => 'required',
+                'nombre'        => 'required|min:3',
+                'apellidos'     => 'required|min:3',
+                'fecha_nacimiento'=> 'required',
+                'tipo_doc'      => 'required',
+                'tipo_doc_num'  => 'required|min:5',
+                'idioma_id'     => 'required',
+                'tipo_cliente'  => 'required',
+                'visitas'        => 'required',
+                'presupuesto'       => 'required|numeric'
+                ],$messages);
+            $cliente = Cliente::find($id);
+            $cliente->usuario_id = Auth::user()->id;
+            $cliente->fill(array_filter($request->all()));
+            if ($cliente->update()) {
+                $path_base = base_path();
+                $path_public = public_path();
+                $url_base = url('/');
+                return response()->json(["mensaje" => "Se ha actualizado el cliente.", 'idcliente' => $cliente->id, 'path_base'=> $path_base, 'path_public' => $path_public, 'url_base' => $url_base ]);
                 return redirect('/clientes');
             }else{
-                return view('cliente.edit',compact('cliente'));
-            };
+                return response()->json(["mensaje" => "Ocurrió un error al intentar dar de alta al cliente."]);
+            }
+        }
+        
     }
 
     /**
