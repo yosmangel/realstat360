@@ -7,7 +7,7 @@
 	<div class="row">
 		<div id="response" class="alert alert-success" role="alert" style="display:none">
 		</div>
-		<form class="form-horizontal" novalidate="novalidate" action="{{ url($url) }}" action2="{{ route('clientes.index') }}"method="post" id="frmCliente" name="frmCliente">
+		<form class="form-horizontal" novalidate="novalidate" action="{{ url($url) }}" action2="{{ route('clientes.index') }}"method="post" id="frmCliente" name="frmCliente" cliente="{{$cliente->id}}" action3="{{route('clientes.findEmail')}}" action4="{{route('clientes.findTel')}}">
 			<input name="_token" type="hidden" value = "{{ csrf_token() }}" id="token">
 			{{ method_field($method) }}
 			<div class="col-md-12">
@@ -81,14 +81,14 @@
 									@endif
 								</div>
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="w1-email">Correo Electrónico</label>
+									<label class="col-sm-4 control-label" for="w1-email"><i id="removeEmail" class="el el-remove" style="visibility: hidden"></i><i id="okEmail" class="el el-ok" style="visibility: hidden"></i> Correo Electrónico</label>
 									<div class="col-sm-7">
 										<input type="text" class="form-control input-sm" name="email" id="w1-email" value="{{ $cliente->email }}">
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-telefono">
-										Teléfono <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
+										<i id="removeTel" class="el el-remove" style="visibility: hidden"></i><i id="okTel" class="el el-ok" style="visibility: hidden"></i> Teléfono <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
 									</label>
 									<div class="col-sm-7">
 										<input type="text" class="form-control input-sm" name="telefono" id="w1-telefono" value="{{ $cliente->telefono }}">

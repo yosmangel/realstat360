@@ -147,6 +147,24 @@ Route::group(['middleware' => ['auth']], function(){
 		'uses'	=> 'Buscador\AgenteInmuebleController@index',
 		'as'	=> 'encuentra'
 		]);
+
+	Route::post('buscar/cliente/email',[
+		'uses'	=> 'ClientesController@findEmail',
+		'as'	=> 'clientes.findEmail'
+		]);
+	Route::get('buscar/cliente/email',[
+		'uses'	=> 'ClientesController@findEmail',
+		'as'	=> 'clientes.findEmail'
+		]);
+
+	Route::post('buscar/cliente/telefono',[
+		'uses'	=> 'ClientesController@findTel',
+		'as'	=> 'clientes.findTel'
+		]);
+	Route::get('buscar/cliente/telefono',[
+		'uses'	=> 'ClientesController@findTel',
+		'as'	=> 'clientes.findTel'
+		]);
 	
 });
 	

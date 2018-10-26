@@ -176,13 +176,16 @@ class ClientesController extends Controller
                 'visitas.required'      => 'Las visitas del cliente es obligatorio.',
                 'presupuesto.required'  => 'El presupuesto del cliente es obligatorio.',
                 'presupuesto.numeric'   => 'Debe ingresar un valor neto sin decimales ni puntos para el presupuesto.',
+                'email.unique'=> 'El correo ya existe en nuestros registros para un cliente, por favor introduzca otro.',
                 'email.required'=> 'Debe ingresar el correo del cliente.',
                 'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
+                'telefono.unique'=> 'El teléfono ya existe en nuestros registros para un cliente, por favor introduzca otro.',
                 'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
+                
             ];
             $this->validate($request,[
-                'email'        => 'required|email',
-                'telefono'      => 'required',
+                'email'        => 'required|email|unique:clientes,email',
+                'telefono'      => 'required|unique:clientes,telefono',
                 'nombre'        => 'required|min:3',
                 'apellidos'     => 'required|min:3',
                 'fecha_nacimiento'=> 'required',
@@ -331,7 +334,7 @@ class ClientesController extends Controller
     public function update(Request $request, $id)
     {
         if ($request->ajax()) {
-
+            $cliente = Cliente::find($id);
             $messages = [
                 'nombre.required'       => 'Debe ingresar el nombre del cliente.',
                 'nombre.min'            => 'El nombre del cliente debe tener al menos 3 carácteres.',
@@ -347,12 +350,14 @@ class ClientesController extends Controller
                 'presupuesto.required'  => 'El presupuesto del cliente es obligatorio.',
                 'presupuesto.numeric'   => 'Debe ingresar un valor neto sin decimales ni puntos para el presupuesto.',
                 'email.required'=> 'Debe ingresar el correo del cliente.',
+                'email.unique'=> 'El correo ya existe en nuestros registros para un cliente, por favor introduzca otro.',
                 'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
-                'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
+                'telefono.unique' => 'El teléfono ya existe en nuestros registros para un cliente, por favor introduzca otro.',
+                'telefono.required'=> 'Debe ingresar el teléfono del cliente.'
             ];
             $this->validate($request,[
-                'email'        => 'required|email',
-                'telefono'      => 'required',
+                'email'        => 'required|email|unique:clientes,email,'.$cliente->id,
+                'telefono'      => 'required|unique:clientes,telefono,'.$cliente->id,
                 'nombre'        => 'required|min:3',
                 'apellidos'     => 'required|min:3',
                 'fecha_nacimiento'=> 'required',
@@ -394,5 +399,31 @@ class ClientesController extends Controller
         if ($request->ajax()) {
             return $message;
         };
+    }
+
+    public function findEmail(Request $request){
+
+        $cliente=Cliente::where('email','=',$request->email)
+                            ->where('id','<>',$request->id)
+                            ->get();
+
+        if(count($cliente)){
+            return response()->json(['find'=>1, 'cliente'=>$cliente]);
+        }else{
+            return response()->json(['find'=>0]);
+        }
+    }
+
+    public function findTel(Request $request){
+
+        $cliente=Cliente::where('telefono','=',$request->telefono)
+                            ->where('id','<>',$request->id)
+                            ->get();
+
+        if(count($cliente)){
+            return response()->json(['find'=>1,'cliente'=>$cliente]);
+        }else{
+            return response()->json(['find'=>0]);
+        }
     }
 }

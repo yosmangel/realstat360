@@ -133,7 +133,128 @@ $(document).ready(function(){
 			});
 		});
 	});
+	$( "input[type='text']" ).change(function() {
+  // Check input( $( this ).val() ) for validity here
+});
+	$( "#w1-email" ).change(function(e) {
+		e.preventDefault();
+		var form = $(this).parents('form');
+		var id=form.attr('cliente');
+		var correo=document.frmCliente.email.value;
 
+		if(correo==null || correo=="" || correo==undefined){
+			return false;
+		}else if(validaEmail(correo) == false){
+			return false;
+		}
+
+		var formData = new FormData();
+	    var data={  
+            'id': id=="" || id==null?0:id,
+            'email':correo
+        }
+
+		var url = form.attr('action3');
+		
+		$.ajax({
+		   url: url,
+		   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		   type: 'post',
+		   dataType: 'json', 
+		   data : data,
+		   beforeSend: function(){
+		   },
+		   complete: function(){
+		   },
+		   error: function(data){
+		       $("#okEmail").css('visibility', 'hidden');
+		       $("#removeEmail").css('visibility', 'visible'); 
+		        
+		        
+	      	},
+		   success: function(result) {
+
+		   		if(result.find==0){
+		   			$("#okEmail").css('visibility', 'visible');
+			        $("#removeEmail").css('visibility', 'hidden');
+		   		}else{
+		   			$("#okEmail").css('visibility', 'hidden');
+			        $("#removeEmail").css('visibility', 'visible');
+			   		swal({
+						title: "Correo existente",
+						text: "El correo escrito pertenece al usuario "+ result.cliente[0].nombre+" "+result.cliente[0].apellidos+". Por favor escriba otro.",
+						type: "warning",
+						showCancelButton: false,
+						confirmButtonColor: '#DD6B55',
+						confirmButtonText: 'OK',
+						closeOnConfirm: true
+					},
+					function(){ 
+					});
+		   		}
+		    }
+		});
+	});
+
+	$( "#w1-telefono" ).change(function(e) {
+		e.preventDefault();
+		var form = $(this).parents('form');
+		var id=form.attr('cliente');
+		var telefono=$("#w1-telefono").val();
+
+		if(telefono==null || telefono=="" || telefono==undefined){
+			return false;
+		}else if(validaNumeros(telefono) == false){
+			return false;
+		}
+
+		var formData = new FormData();
+	    var data={  
+            'id': id=="" || id==null?0:id,
+            'telefono':telefono
+        }
+
+		var url = form.attr('action4');
+		
+		$.ajax({
+		   url: url,
+		   headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+		   type: 'post',
+		   dataType: 'json', 
+		   data : data,
+		   beforeSend: function(){
+		   },
+		   complete: function(){
+		   },
+		   error: function(data){
+		       $("#okTel").css('visibility', 'hidden');
+		       $("#removeTel").css('visibility', 'visible'); 
+		        
+		        
+	      	},
+		   success: function(result) {
+
+		   		if(result.find==0){
+		   			$("#okTel").css('visibility', 'visible');
+			        $("#removeTel").css('visibility', 'hidden');
+		   		}else{
+		   			$("#okTel").css('visibility', 'hidden');
+			        $("#removeTel").css('visibility', 'visible');
+			   		swal({
+						title: "Teléfono existente",
+						text: "El teléfono escrito pertenece al usuario "+ result.cliente[0].nombre+" "+result.cliente[0].apellidos+". Por favor escriba otro.",
+						type: "warning",
+						showCancelButton: false,
+						confirmButtonColor: '#DD6B55',
+						confirmButtonText: 'OK',
+						closeOnConfirm: true
+					},
+					function(){ 
+					});
+		   		}
+		    }
+		});
+	});
 });
 
 function validarFormularioCliente(){
