@@ -2,7 +2,9 @@
 @section('title','Lista de Clientes')
 @section('css')
 	<link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.css') }}">
+	<link rel="stylesheet" href="{{ asset('js/datatables.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap-theme/select2-bootstrap.min.css') }}">
+	
 @endsection
 @section('content')
 	<section class="body">
@@ -49,8 +51,9 @@
 													<section class="panel panel-featured-left panel-featured-primary">
 														<div class="panel-body">
 														@if(count($clientes)>0)
+														 
 														 <div class="table-responsive">
-															<table class="table table-bordered table-striped" id="datatable-ajax" data-url="{{ route('inmuebles.lista') }}">
+															<table class="datatable table table-striped table-bordered"  data-url="{{ route('inmuebles.lista') }}" >
 																<thead>
 																	<tr>
 																		<th>Nombre</th>
@@ -65,7 +68,7 @@
 																<tbody> 
 																	@foreach($clientes as $cliente)
 																		<tr data-id="{{ $cliente->id }}">
-																			<td>{{ $cliente->apellidos }}, {{ $cliente->nombre }}</td>
+																			<td><a href="{{ route('clientes.show',$cliente->id) }}">{{ $cliente->apellidos }}, {{ $cliente->nombre }}</a></td>
 																			<td class="text-center">
 																				@if(count($cliente->inmuebles) > 0)
 																					<a href="{{ route('clientes.inmuebles',$cliente->id) }}">
@@ -145,6 +148,7 @@
 	</form>
 @endsection
 @section('js')
+
 	<script>
 		/*$(document).ready(function(){
 			$('.delete-row').bind('click', function(e){
@@ -177,7 +181,9 @@
 			});
 		});*/
 	</script>
+	<!--<script src="{ asset('plugins/jquery-datatables-bs3/assets/js/datatables.js') }}"></script>-->
 	<!-- Specific Page Vendor -->
+	
 	<script src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
 	<script src="{{ asset('plugins/bootstrap-wizard/jquery.bootstrap.wizard.js') }}"></script>
 	<script src="{{ asset('plugins/pnotify/pnotify.custom.js') }}"></script>
@@ -185,4 +191,6 @@
 	<script src="{{ asset('js/forms/examples.wizard.js') }}"></script>
 	<script src="{{ asset('plugins/select2/js/select2.js') }}"></script>
 	<script src="{{ asset('js/main/clientes.js') }}"></script>
+	<script src="{{ asset('js/datatables.min.js') }}"></script>
+	
 @endsection

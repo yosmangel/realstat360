@@ -6,7 +6,7 @@
 
     <!-- Scripts -->
     <!-- THE NEXT LINE IS FOR CONFIGURING A JS FRAMEWORK LIKE VUE.JS-->
-    <!--script src="{{ asset('js/app.js') }}"></script-->
+    <!--script src="asset('js/app.js') }}"></script-->
 
     <!-- Vendor -->
 	<script src="{{ asset('plugins/jquery/jquery.js') }}"></script>
