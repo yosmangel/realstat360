@@ -505,8 +505,8 @@ class InmueblesController extends Controller
             $tipoico = 'eur';
         }
         
-
-        return view('inmuebles.show', compact('inmueble', 'operacion','documentos','videos', 'tipoico', 'inmueble_interno'));
+        $demandas = [];
+        return view('inmuebles.show', compact('inmueble', 'operacion','documentos','videos', 'tipoico', 'inmueble_interno','demandas'));
     }
 
 
