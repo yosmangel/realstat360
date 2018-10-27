@@ -15,7 +15,7 @@
 							<tr>
 								<td width="20%"><strong>Alquiler mensual público:</strong></td>
 								<td width="80%" class="text-left">
-									@if(count($inmueble_interno) > 0)
+									@if(!empty($inmueble_interno) )
 										<i class="fa fa-{{ $tipoico }}"></i> 
 										{{ $inmueble->interno->alqres_precio_pub }}
 									@else
@@ -27,7 +27,7 @@
 							<tr>
 								<td width="20%"><strong>Alquiler mensual propietario:</strong></td>
 								<td width="80%" class="text-left">
-									@if(count($inmueble_interno) > 0)
+									@if(!empty($inmueble_interno) )
 										<i class="fa fa-{{ $tipoico }}"></i> 
 										{{ $inmueble->interno->alqres_precio_prop }}
 									@else
@@ -38,7 +38,7 @@
 							<tr>
 								<td width="20%"><strong>Honorarios:</strong></td>
 								<td width="80%" class="text-left">
-									@if(count($inmueble_interno) > 0)
+									@if(!empty($inmueble_interno) )
 										{{ $inmueble->interno->honorarios }}
 									@else
 										-
@@ -63,10 +63,7 @@
 			<div class="panel-body">
 				<!-- DIRECCION -->
 				<div class="row">
-					<div class="col-xs-12 col-md-6">
-						<img src="{{ asset('images/mapa_ejemplo.jpg') }}" alt="" class="img-responsive">
-					</div>
-					<div class="col-xs-12 col-md-6">
+					<div class="col-xs-12 col-md-12">
 						<div class="table-responsive">
 							<table class="table table-striped mb-none">
 								<tbody>

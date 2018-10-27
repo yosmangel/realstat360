@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Interno;
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class InternosController extends Controller
 {
@@ -90,7 +89,26 @@ class InternosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+           if ($request->ajax()) {
+                $interno=Interno::where('inmueble_id','=',$request->idu)->first();
+
+                if(empty($interno)){
+                    $interno=new Interno();
+                    $interno->inmueble_id=$request->idu;
+                }
+                $interno->fill($request->all());
+
+                if( $interno->save() ) {
+                    return response()->json(["mensaje" => "La información del Inmueble ha sido actualizada.", "code"=>0]);
+                }else{
+                    return response()->json(["mensaje" => "Ha ocurrido un error al intentar editar la información del Inmueble." , "code"=>1]);
+                }
+
+           } 
+        } catch (Exception $e) {
+            return response()->json(["mensaje" => "Ha ocurrido un error al intentar editar la información del Inmueble." , "code"=>1]);
+        }
     }
 
     /**

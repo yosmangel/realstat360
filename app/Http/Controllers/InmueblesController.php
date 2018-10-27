@@ -437,6 +437,10 @@ class InmueblesController extends Controller
     {
         $inmueble = Inmueble::findWithRelations($id);
 
+        $inmueble->interiores;
+        $inmueble->exteriores;
+        $inmueble->finca;
+        $inmueble->modalidad;
         /* DOCUMENTOS DEL INMUEBLE */
         $inmueble->archivos;
         $documentos = [];
@@ -500,7 +504,8 @@ class InmueblesController extends Controller
         }elseif($inmueble->moneda == 'USD - Dólar estadounidense'){
             $tipoico = 'eur';
         }
-        //dd($inmueble->via);
+        
+
         return view('inmuebles.show', compact('inmueble', 'operacion','documentos','videos', 'tipoico', 'inmueble_interno'));
     }
 
@@ -539,6 +544,9 @@ class InmueblesController extends Controller
         $inmueble->promocion;
         $inmueble->entidad;
         $inmueble->modalidad;
+        $inmueble->interiores;
+        $inmueble->exteriores;
+        $inmueble->finca;
 
         $tipos_estados = ['disponible'    => 'Disponible', 
                     'reservado'     => 'Reservado',
@@ -549,7 +557,7 @@ class InmueblesController extends Controller
 
         // Agencia, Agentes y Promociones
         $agencia = Agencia::where('user_id',Auth::user()->id)->get();
-
+        
         if (count($agencia)>0) {
             $promociones = Promocion::where('agencia_id',$agencia[0]->id)->get();
             $agentes = Agente::where('agencia_id',$agencia[0]->id)->get();     
@@ -558,7 +566,7 @@ class InmueblesController extends Controller
             $agentes = [];
         };
 
-        if (count($inmueble->promocion)>0) {
+        if ($inmueble->promocion) {
            $promocion = $inmueble->promocion;
         }else{
             $promocion = [];
@@ -574,12 +582,12 @@ class InmueblesController extends Controller
         }else{
             $url = '';
         };
-
+        $provincias= Provincia::all();
         $inmuima = $inmueble->imagenes;
         $inmufile = $inmueble->archivos;
         $inmueble_id = $inmueble->id;
-        return view('inmuebles.edit', compact('inmueble','inmuima','inmueble_id','inmufile','entidades','agencia','agentes','clientes','promociones','promocion','tipologias','monedas','tipos_estados','url'));
-        //return view('inmuebles.edit', compact())->with('inmueble',$inmueble,'inmuima',$inmuima,'inmufile',$inmufile,'categorias',$categorias,'tipos',$tipos,'entidades',$entidades,'paises',$paises,'municipios',$municipios,'vias',$vias,'pisoid',$pisoid,'agencia',$agencia,'promociones',$promociones,'tipologias',$tipologias,'pisos',$pisos,'monedas',$monedas,'idiomas',$idiomas,'tipos_estados',$tipos_estados,'url',$url);
+        $demandas = [];
+        return view('inmuebles.edit', compact('inmueble','inmuima','inmueble_id','inmufile','entidades','agencia','agentes','clientes','promociones','promocion','tipologias','monedas','tipos_estados','url','demandas','provincias'));
     }
 
     public function extras($id){
@@ -627,47 +635,117 @@ class InmueblesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
+            if ($request->ajax()) {
 
-        if ($request->ajax()) {
-             // Formulario del edit principal
-            if ($request->numform == 0) { 
-                
+                $messages = [
+                    'tipo_id.required' =>'Debe ingresar el tipo de inmueble.',
+                    'categoria_id.required' => 'Debe ingresar la categoría.',
+                    'fecha_alta.required' => 'Debe ingresar la fecha de alta.',
+                    'estado.required' => 'Debe ingresar el estado del inmueble.',
+                    'pais_id.required' => 'Debe ingresar el país.',
+                    'codigo_postal.required' => 'El código postal es obligatorio.',
+                    'provincia_id.required' => 'La provincia es obligatoria.',
+                    'ciudad_id.required' => 'La ciudad es obligatoria.',
+                    'via_id.required'       => 'El tipo de vía es obligatorio.',
+                    'calle.required'         => 'El nombre o número de calle es obligatorio.',
+                    'numero.required'        => 'El número de la dirección es obligatorio',
+                    'ventaprecio.numeric'   => 'Los campos de precio de venta deben ser numéricos.',
+                    'ventaprecio2.numeric'  => 'Los campos de precio de venta por metro cuadrádo deben ser numéricos.',
+                    'traspasoprecio.numeric'    => 'Los campos de precio de traspaso deben ser numéricos.',
+                    'traspasoprecio.numeric'    => 'Los campos de precio de traspaso por metro cuadrádo deben ser numéricos.',
+                    'compartirprecio.numeric'    => 'Los campos de precio por compartir deben ser numéricos.',
+                    'compartirprecio2.numeric'    => 'Los campos de precio por compartir por metro cuadrádo deben ser numéricos.',
+                    'alqresprecio.numeric'    => 'Los campos de precio por alquiler residencial deben ser numéricos.',
+                    'alqresprecio2.numeric'    => 'Los campos de precio por alquiler residencial por metro cuadrádo deben ser numéricos.',
+                    'opcioncompraprecio.numeric'    => 'Los campos de precio por alquiler residencial con opción a compra deben ser numéricos.',
+                    'opcioncompraprecio2.numeric'    => 'Los campos de precio por alquiler residencial con opción a compra por metro cuadrádo deben ser numéricos.',
+                    'alqvac_dia_p.numeric'    => 'Los campos de precio por alquiler vacacional por día deben ser numéricos.',
+                    'alqvac_dia_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por día por metro cuadrádo deben ser numéricos.',
+                    'alqvac_semana_p.numeric'    => 'Los campos de precio por alquiler vacacional por semana deben ser numéricos.',
+                    'alqvac_semana_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por semana por metro cuadrádo deben ser numéricos.',
+                    'alqvac_quincena_p.numeric'    => 'Los campos de precio por alquiler vacacional por quincena deben ser numéricos.',
+                    'alqvac_quincena_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por quincena por metro cuadrádo deben ser numéricos.',
+                    'alqvac_mes_p.numeric'    => 'Los campos de precio por alquiler vacacional por mes deben ser numéricos.',
+                    'alqvac_mes_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por mes por metro cuadrádo deben ser numéricos.',
+                    'alqvac_temporada_p.numeric'    => 'Los campos de precio por alquiler vacacional por temporada deben ser numéricos.',
+                    'alqvac_temporada_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por temporada por metro cuadrádo deben ser numéricos.',
+                    'alqvac_anno_p.numeric'    => 'Los campos de precio por alquiler vacacional por año deben ser numéricos.',
+                    'alqvac_anno_pm2.numeric'    => 'Los campos de precio por alquiler vacacional por año por metro cuadrádo deben ser numéricos.',
+                    'superficie.required'       => 'Debe ingresar la superficie en metros cuadrados del inmueble.',
+                    'anio_contruccion.required'=> 'Debe ingresar el año de construcción del inmueble.',
+                    'anio_contruccion.numeric'=> 'El año de construcción del inmueble debe ser numérico.',
+                    'descripcion_corta.required'         => 'Debe ingresar al menos una descripción corta del inmueble',
+                    'persona.required'  => 'Debe ingresar el nombre de la persona de contacto.',
+                ];
+
+                $this->validate($request,[
+                    'tipo_id'       => 'required|numeric',
+                    'categoria_id'  => 'required|numeric',
+                    'fecha_alta'    => 'required',
+                    'estado'        => 'required',
+                    'pais_id'       => 'required',
+                    'codigo_postal' => 'required',
+                    'provincia_id'  => 'required',
+                    'ciudad_id'  => 'required',
+                    'via_id'        => 'required',
+                    'calle'         => 'required',
+                    'numero'        => 'required',
+                    'superficie'    => 'required',
+                    'ventaprecio'   => 'numeric',
+                    'ventaprecio2'  => 'numeric',
+                    'traspasoprecio'    => 'numeric',
+                    'traspasoprecio2'   => 'numeric',
+                    'compartirprecio'   => 'numeric',
+                    'compartirprecio2'  => 'numeric',
+                    'alqresprecio'  => 'numeric',
+                    'alqresprecio2' => 'numeric',
+                    'opcioncompraprecio'    => 'numeric',
+                    'opcioncompraprecio2'   => 'numeric',
+                    'alqvac_dia_p'  => 'numeric',
+                    'alqvac_dia_pm2'    => 'numeric',
+                    'alqvac_semana_p'   => 'numeric',
+                    'alqvac_semana_pm2' => 'numeric',
+                    'alqvac_quincena_p' => 'numeric',
+                    'alqvac_quincena_pm2'   => 'numeric',
+                    'alqvac_mes_p'  => 'numeric',
+                    'alqvac_mes_pm2'    => 'numeric',
+                    'alqvac_temporada_p'    => 'numeric',
+                    'alqvac_temporada_pm2'  => 'numeric',
+                    'alqvac_anno_p' => 'numeric',
+                    'alqvac_anno_pm2'   => 'numeric',
+                    'descripcion_corta' => 'required',
+                    'persona'       => 'required',
+                    'anio_contruccion'=> 'required|numeric'
+                    ],$messages);
+                 
                 $inmueble = Inmueble::find($id);
                 $inmueble->fill($request->all()); /* Fill the inputs with new values */
-                $modalidad = Modalidad::find($inmueble->modalidad_id);
+                $inmueble->usuario_id = Auth::user()->id;
+
+                $modalidad = Modalidad::find($inmueble->modalidad->id);
                 $modalidad->fill($request->all());
 
-                if ($inmueble->save() && $modalidad->save()) {
-                    return response()->json(["mensaje" => "La información del Inmueble ha sido actualizada."]);
+                $interior = Interior::find($inmueble->interiores->id);
+                $interior->fill($request->all());
+
+                $finca= Finca::find($inmueble->finca->id);
+                $finca->fill($request->all());
+
+                $exteriores=Exterior::find($inmueble->exteriores->id);
+                $exteriores->fill($request->all());
+
+
+                if ($inmueble->save() && $modalidad->save() && $interior->save() && $finca->save() && $exteriores->save() ) {
+                    return response()->json(["mensaje" => "La información del Inmueble ha sido actualizada.", "code"=>0]);
                 }else{
-                    return response()->json(["mensaje" => "Ha ocurrido un error al intentar editar la información del Inmueble."]);
+                    return response()->json(["mensaje" => "Ha ocurrido un error al intentar editar la información del Inmueble." , "code"=>1]);
                 }
             }
-
-            // Formulario del Edit de datos internos
-            if ($request->numform == 1) {
-               /* $data = array("mensaje" => "Valor de IDU", "idu" => $valoridu);
-                echo json_encode($data);*/
-                $promocion = Promocion::find($request->idu);
-                $promocion->agencia = $request->agencia;
-                $promocion->agente = $request->agente;
-                $promocion->cliente_propietario = $request->cliente_propietario;
-                $promocion->medio_captacion = $request->medio_captacion;
-                $promocion->contrato = $request->contrato;
-                $promocion->inicio_contrato = $request->inicio_contrato;
-                $promocion->fin_contrato = $request->fin_contrato;
-                $promocion->inm_exclusiva = $request->inm_exclusiva;
-                $promocion->llaves = $request->llaves;
-                $promocion->coment_llaves = $request->coment_llaves;
-                $promocion->notas_internas = $request->notas_internas;
-                if ($promocion->save()) {
-                    $data = array("mensaje" => "Los \"Datos Internos\" se han guardado exitosamente.");
-                    echo json_encode($data);
-                }else{
-                    return response()->json(["mensaje" => "Ha ocurrido un error al intentar guardar los \"Datos Internos\" de la Promoción."]);
-                };
-            }
+        } catch (Exception $e) {
+            return response()->json(["mensaje" => "Ha ocurrido un error al intentar editar la información del Inmueble." , "code"=>1]);
         }
+            
     }
 
     /**

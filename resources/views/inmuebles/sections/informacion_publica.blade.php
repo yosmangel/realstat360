@@ -66,10 +66,10 @@
 																			<small class="pull-left text-muted">Superficie: {{ $inmueble->superficie }} m²</small><br>
 																			<small class="pull-left text-muted">Ref.: {{ $inmueble->id }}</small><br>
 																			<small class="pull-right text-muted">{{ $inmueble->created_at }}</small>
-																			<small>
+																			<!--<small>
 																				<a href="{{ route('imagenes.descargar',$inmuebles[$i][1]) }}"><i class="fa fa-download"></i> Descargar Imagen</a>&nbsp;|&nbsp;
 																				<a href="#!" class='delete-row'><i class='fa fa-trash-o'></i>&nbsp;<small>Eliminar Inmueble</small></a>
-																			</small>
+																			</small>-->
 																		</div>
 																</div>
 														</td>

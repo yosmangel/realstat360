@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	seccionForm="principal";
-	inmuebleID="";
+	inmuebleID=$('#idInmueble').val();
     /* ************************************************************************* */
 
     /* Button Actions */
@@ -132,30 +132,8 @@ $(document).ready(function(){
 		if(decision==false){
 			return false;
 		}
-
-		var getout_tab = $(this).data('getouttab');
-		var getout_content = $(this).data('getoutcontent');
-		var getin_tab = $(this).data('getintab');
-		var getin_content = $(this).data('getincontent');
-		$('#'+getout_tab).removeClass('active');
-		$('#'+getout_content).removeClass('active');
-		$('#'+getin_tab).addClass('active');
-		$('#'+getin_content).addClass('active');
 		
 	});
-
-
-	/*function get_archivos(id, url, div){
-		$.ajax({
-		   url: url,
-		   type: 'GET',
-		   success: function(data) {
-		   		$('#'+div).html(data).slideDown("slow");
-		   		$('#contenido-tablas').attr('class','in');
-		   		mostrar_div('#'+div);
-		    }
-		});
-	}*/
 
 	// Funcion de Scroll a un tag determinado
 	function scrollTo(id,sec){
@@ -259,21 +237,10 @@ $(document).ready(function(){
 		});
 	});
 
-	$('#obranueva').change(function(){
-		if ($(this).is(':checked')) {
-			$('#obra-nueva').collapse('show');
-		}else{
-		    $('#obra-nueva').collapse('hide');
-		};
-	});
 	
 	// Al editar las propiedades principales de un usuario, si el inmueble no estaba marcado como nuevo
 	// los selects de promocion y tipologia se encuentran desabilitados por default, aqui se pueden habilitar
-	if ($('#obranueva_edt').is(":checked")) {
-			$('.esnueva').removeAttr('disabled');
-		}else{
-			$('.esnueva').attr('disabled','disabled');
-		};
+
 	$('#obranueva_edt').change(function(){
 		if ($(this).is(":checked")) {
 			$('.esnueva').removeAttr('disabled');
@@ -284,12 +251,6 @@ $(document).ready(function(){
 		};
 	});
 
-	if ($('#adjudicacionbancaria').is(":checked")) {
-		$('#entidad_id').removeAttr('disabled');
-	}else{
-		$('#entidad_id').attr('disabled','disabled');
-	};
-
 	$('#adjudicacionbancaria').change(function(){
 		if ($(this).is(":checked")) {
 			$('#adjudicacion').collapse('show');
@@ -299,6 +260,8 @@ $(document).ready(function(){
 			$('#entidad_id').attr('disabled','disabled');
 		};
 	});
+
+	
 
 	$('.btn-send-url').bind('click', function(e){
 		e.preventDefault();
@@ -364,46 +327,64 @@ $(document).ready(function(){
 	});
 	
 	$('.btn-edit').bind('click', function(e){ 
-			e.preventDefault();
-			var id_msj = $(this).data('id');
-			var form = $(this).parents('form');
-			var url = form.attr('action');
-			var data = form.serializeArray();
+		e.preventDefault();
+		$('#response').hide();
+		var id_msj = $(this).data('id');
+		var form = $(this).parents('form');
+		var url = form.attr('action');
+		var data = form.serializeArray();
+		var validacion=sectionValidate('principal');
+		data = objectifyForm(data);
+		if(validacion==false){
+			return false;
+		}
 
-			data = objectifyForm(data);
-			console.log(data);
-			var timeOutId = 0;
-			$.ajax({
-			   url: url,
-			   headers: {'X-CSRF-TOKEN': token},
-			   type: 'PUT',
-			   dataType: 'json',
-			   data : data,
-			   beforeSend: function(){
-			   		$(".btn-edit").text('Guardando ...');
-			   		$(".btn-edit").attr('disabled',true);
-			   },
-			   complete: function(){
-			   		$(".btn-edit").text('Guardar');
-			   		$(".btn-edit").attr('disabled',false);
-			   },
-			   success: function(result) {
-			   		scrollTo("#w1");
-			   		$('#msj_edit').fadeIn().delay(3000).fadeOut(350);
-					console.log(result);
+		var timeOutId = 0;
+		$.ajax({
+			url: url,
+			headers: {'X-CSRF-TOKEN': token},
+			type: 'PUT',
+			dataType: 'json',
+			data : data,
+			beforeSend: function(){
+			   	$(".btn-edit").text('Editando ...');
+			   	$(".btn-edit").attr('disabled',true);
+			},
+			complete: function(){
+			   	$(".btn-edit").text('Editar');
+			},
+			error: function(data){
+			   	$(".btn-edit").attr('disabled',false);
+		        var errors = '';
+		        scrollTo("#w1");
+	            for(datos in data.responseJSON){
+	                errors += data.responseJSON[datos] + '<br>';
+	            }
+	            $('#response').show().html(errors);
+	      	},
+			success: function(result) {
+				$(".btn-edit").attr('disabled',false);
+				scrollTo("#w1");
+
+				if(result.code==1){
+					$('#response').show().html(result.mensaje+ '<br>');
+				}else{
+					$('#response').hide();
+				   	$('#msj_edit').fadeIn().delay(3000).fadeOut(350);
 					timeOutId = setTimeout(function(){
-				   		$('#w1-principales').removeClass('active');
-				   		$('#tab-principales').removeClass('active');
-		          		//get_archivos(idinmueble, '/inmuebles/extras/'+idinmueble,'w1-extras');
-		          		//$('.extras').attr('action','/extras/'+idinmueble);
-		          		//$('.extras-inmu-id').val(idinmueble);
-				   		$('#tab-extras').addClass('active');
-				   		$('#w1-extras').addClass('active');
-			   		}, 4000);
-			    }
-			});
-			clearTimeout(timeOutId);
+					   	$('#w1-principales').removeClass('active');
+					   	$('#tab-principales').removeClass('active');
+			          	$("#previousLI").removeClass('disabled');	
+					   	$('#tab-extras').addClass('active');
+					   	$('#w1-extras').addClass('active');
+					   	seccionForm="extra";
+				   	}, 4000);
+				}
+			   		
+			}
 		});
+		clearTimeout(timeOutId);
+	});
 
 	$('.btn-edit-extras').bind('click', function(e){ 
 			e.preventDefault();
@@ -623,7 +604,7 @@ $(document).ready(function(){
 		        switch(seccionForm) {
 				    case 'principal':
 				    	if(inmuebleID=="" || inmuebleID==null || inmuebleID==" "){
-				    		$('.btn-nuevo-inmueble').click();
+				    		$('.btn-edit').click();
 				    	}else{
 				    		$('#w1-principales').removeClass('active');
 							$('#tab-principales').removeClass('active');

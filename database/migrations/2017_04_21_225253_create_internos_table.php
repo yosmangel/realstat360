@@ -21,17 +21,17 @@ class CreateInternosTable extends Migration
                   ->on('inmuebles')
                   ->onDelete('cascade');
 
-            $table->integer('agencia_id')->unsigned();
+            $table->integer('agencia_id')->unsigned()->nullable();
             $table->foreign('agencia_id')
                   ->references('id')
                   ->on('agencias')
                   ->onDelete('cascade');
-            $table->integer('agente_id')->unsigned();
+            $table->integer('agente_id')->unsigned()->nullable();
             $table->foreign('agente_id')
                   ->references('id')
                   ->on('agentes')
                   ->onDelete('cascade');
-            $table->integer('cliente_prop_id')->unsigned();
+            $table->integer('cliente_prop_id')->unsigned()->nullable();
             $table->foreign('cliente_prop_id')
                   ->references('id')
                   ->on('clientes')
@@ -49,13 +49,13 @@ class CreateInternosTable extends Migration
                 'granmanzana.es','Idealista','Inmoportalix','Jornada Puertas Abiertas',
                 'Llamada Telefonica','micasa.es','mitula.com','Oficina/Escaparate','otro',
                 'pisocasas.com','plandeprotecciondealquiler.com','Redes Sociales','trovimap.com',
-                'una web','wordinmo.com'])->default('otro');
+                'una web','wordinmo.com'])->default('otro')->nullable();
 
-            $table->boolean('contrato_firmado')->default(false);
+            $table->boolean('contrato_firmado')->default(false)->nullable();
             $table->date('ini_contrato')->nullable();
             $table->date('fin_contrato')->nullable();
             $table->boolean('en_exclusica')->default(false);
-            $table->enum('ubicacion_llaves',['Porteria','Oficina','Empresa delegada','Propietario','Inquilino'])->default('Propietario');
+            $table->enum('ubicacion_llaves',['Porteria','Oficina','Empresa delegada','Propietario','Inquilino'])->default('Propietario')->nullable();
             $table->text('comment_llaves')->nullable();
 
             // Datos Registrables

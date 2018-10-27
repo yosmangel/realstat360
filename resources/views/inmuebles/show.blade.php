@@ -29,20 +29,19 @@
 							<section class="panel form-wizard" id="w1">
 								<div class="panel-body panel-body-nopadding">
 									<section class="panel panel-group">
-										<header class="panel-heading bg-quaternary">
+										<header class="panel-heading">
 											<div class="widget-profile-info">
 												<div class="property-picture">
-													@if( ($inmueble->id_portada != null) && ($inmueble->id_portada != '') )
+													@if( ($inmueble->id_portada == null) || ($inmueble->id_portada == '') )
 														<img src="{{ asset('files_img/'.$inmueble->id_portada ) }}" alt="Project" width="110px">
 													@else
-													 	<?php  $ima = (count($inmueble->imagenes)>0) ? $inmueble->imagenes[0]->nombre : 'miniatura_inmueble.png'; ?>
-														<img src="{{ asset('files_img/'.$ima ) }}" alt="" width="110px">
+														<img src="{{ asset('images/miniatura_inmueble.png' ) }}" alt="" width="110px">
 													@endif
 												</div>
 												<div class="profile-info">
 													<h3 class="name text-weight-semibold">Ficha del Inmueble Ref-{{ $inmueble->id }}</h3>
 													
-													<div class="profile-footer">
+													<div class="profile-info">
 														<a href="{{ route('inmuebles.edit',$inmueble->id) }}">(Editar Inmueble)</a>
 													</div>
 												</div>
@@ -61,9 +60,6 @@
 												</li>
 												<li>
 													<a href="#datosint" data-toggle="tab"><i class="fa fa-list"></i>&nbsp;Datos Internos</a>
-												</li>
-												<li>
-													<a href="#publicidad" data-toggle="tab"><i class="fa fa-window-restore"></i>&nbsp;Publicidad</a>
 												</li>
 											</ul>
 											<div class="tab-content">
@@ -87,22 +83,30 @@
 																						<td width="20%"><strong>Referencia:</strong></td>
 																						<td width="80%" class="text-left">{{ $inmueble->id }}</td>
 																					</tr>
-																					<tr>
-																						<td width="20%"><strong>Tipo:</strong></td>
-																						<td width="80%" class="text-left">{{ $inmueble->tipo->nombre }}</td>
-																					</tr>
-																					<tr>
-																						<td width="20%"><strong>Categoría:</strong></td>
-																						<td width="80%" class="text-left">{{ $inmueble->categoria->nombre }}</td>
-																					</tr>
-																					<tr>
-																						<td width="20%"><strong>Superficie:</strong></td>
-																						<td width="80%" class="text-left">{{ $inmueble->superficie }} m<sup>2</sup></td>
-																					</tr>
-																					<tr>
-																						<td width="20%"><strong>Modalidad:</strong></td>
-																						<td width="80%" class="text-left"><?php echo $operacion ?></td>
-																					</tr>
+																					@if (!empty($inmueble->tipo))
+																						<tr>
+																							<td width="20%"><strong>Tipo:</strong></td>
+																							<td width="80%" class="text-left">{{ $inmueble->tipo->nombre }}</td>
+																						</tr>
+																					@endif
+																					@if (!empty($inmueble->categoria))
+																						<tr>
+																							<td width="20%"><strong>Categoría:</strong></td>
+																							<td width="80%" class="text-left">{{ $inmueble->categoria->nombre }}</td>
+																						</tr>
+																					@endif
+																					@if (!empty($inmueble->superficie))
+																						<tr>
+																							<td width="20%"><strong>Superficie:</strong></td>
+																							<td width="80%" class="text-left">{{ $inmueble->superficie }} m<sup>2</sup></td>
+																						</tr>
+																					@endif
+																					@if (!empty($operacion))
+																						<tr>
+																							<td width="20%"><strong>Modalidad:</strong></td>
+																							<td width="80%" class="text-left"><?php echo $operacion ?></td>
+																						</tr>
+																					@endif
 																					<tr>
 																						<td width="20%"><strong>Adjudicado:</strong></td>
 																						<td width="80%" class="text-left">
@@ -113,10 +117,12 @@
 																							@endif
 																						</td>
 																					</tr>
-																					<tr>
-																						<td width="20%"><strong>Certificado Energético:</strong></td>
-																						<td width="80%" class="text-left">{{ $inmueble->certificado_energetico }}</td>
-																					</tr>
+																					@if (!empty($inmueble->tipo))
+																						<tr>
+																							<td width="20%"><strong>Certificado Energético:</strong></td>
+																							<td width="80%" class="text-left">{{ $inmueble->certificado_energetico }}</td>
+																						</tr>
+																					@endif
 																				</tbody>
 																			</table>
 																		</div>
@@ -134,40 +140,49 @@
 																<div id="collapse1Two" class="accordion-body collapse in">
 																	<div class="panel-body">
 																		<div class="row">
-																			<div class="col-xs-12 col-md-6">
+																			<div class="col-xs-12 col-md-12">
 																				<div class="table-responsive">
 																					<table class="table table-striped mb-none">
 																						<tbody>
-																							<tr>
-																								<td width="20%"><strong>Zona:</strong></td>
-																								<td width="80%" class="text-left">{{ $inmueble->zona }}</td>
-																							</tr>
-																							<tr>
-																								<td width="20%"><strong>Distrito:</strong></td>
-																								<td width="80%" class="text-left">{{ $inmueble->distrito_id }}</td>
-																							</tr>
-																							<tr>
-																								<td width="20%"><strong>Municipio:</strong></td>
-																								<td width="80%" class="text-left">{{ $inmueble->ciudad->nombre }}</td>
-																							</tr>
-																							<tr>
-																								<td width="20%"><strong>Provincia:</strong></td>
-																								<td width="80%" class="text-left">{{ $inmueble->provincia_id }}</td>
-																							</tr>
-																							<tr>
-																								<td width="20%"><strong>C.P.::</strong></td>
-																								<td width="80%" class="text-left">{{ $inmueble->codigo_postal }}</td>
-																							</tr>
-																							<tr>
-																								<td width="20%"><strong>País:</strong></td>
-																								<td width="80%" class="text-left">{{ $inmueble->pais->nombre }}</td>
-																							</tr>
+																							@if (!empty($inmueble->zona))
+																								<tr>
+																									<td width="20%"><strong>Zona:</strong></td>
+																									<td width="80%" class="text-left">{{ $inmueble->zona }}</td>
+																								</tr>
+																							@endif
+																							@if (!empty($inmueble->distrito_id))
+																								<tr>
+																									<td width="20%"><strong>Distrito:</strong></td>
+																									<td width="80%" class="text-left">{{ $inmueble->distrito_id }}</td>
+																								</tr>
+																							@endif
+																							@if (!empty($inmueble->ciudad))
+																								<tr>
+																									<td width="20%"><strong>Municipio:</strong></td>
+																									<td width="80%" class="text-left">{{ $inmueble->ciudad->nombre }}</td>
+																								</tr>
+																							@endif
+																							@if (!empty($inmueble->provincia_id))
+																								<tr>
+																									<td width="20%"><strong>Provincia:</strong></td>
+																									<td width="80%" class="text-left">{{ $inmueble->provincia_id }}</td>
+																								</tr>
+																							@endif
+																							@if (!empty($inmueble->codigo_postal))
+																								<tr>
+																									<td width="20%"><strong>C.P:</strong></td>
+																									<td width="80%" class="text-left">{{ $inmueble->codigo_postal }}</td>
+																								</tr>
+																							@endif
+																							@if (!empty($inmueble->pais))
+																								<tr>
+																									<td width="20%"><strong>País:</strong></td>
+																									<td width="80%" class="text-left">{{ $inmueble->pais->nombre }}</td>
+																								</tr>
+																							@endif
 																						</tbody>
 																					</table>
 																				</div>
-																			</div>
-																			<div class="col-xs-12 col-md-6">
-																				<img src="{{ asset('images/mapa_ejemplo.jpg') }}" alt="" class="img-responsive">
 																			</div>
 																		</div>
 																	</div>
@@ -200,10 +215,12 @@
 																						<td width="20%"><strong>Abreviada:</strong></td>
 																						<td width="80%" class="text-left">{{ $inmueble->descripcion_corta }}</td>
 																					</tr>
-																					<tr>
-																						<td width="20%"><strong>Extendida:</strong></td>
-																						<td width="80%" class="text-left">{{ $inmueble->descripcion_extendida }}</td>
-																					</tr>
+																					@if (!empty($inmueble->descripcion_extendida))
+																						<tr>
+																							<td width="20%"><strong>Extendida:</strong></td>
+																							<td width="80%" class="text-left">{{ $inmueble->descripcion_extendida }}</td>
+																						</tr>
+																					@endif
 																				</tbody>
 																			</table>
 																		</div>
@@ -235,12 +252,6 @@
 												<div id="datosint" class="tab-pane">
 													<div class="row">
 														@include('inmuebles.showinternos.internos')
-													</div>
-												</div>
-												<div id="publicidad" class="tab-pane">
-													<div class="row">
-														<p>Publicidad</p>
-														<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitat.</p>
 													</div>
 												</div>
 											</div>

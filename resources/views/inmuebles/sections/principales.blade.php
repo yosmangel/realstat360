@@ -5,7 +5,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div id="response" class="alert alert-success" role="alert" style="display:none">
+		<div id="response" class="alert alert-danger" role="alert" style="display:none">
 		</div>
 		<form class="form-horizontal" novalidate="novalidate" action="{{ route('inmuebles.store') }}" method="post" id="principalInmueble" name="principalInmueble">
 			<input name="_token" type="hidden" value = "{{ csrf_token() }}" id="token">
@@ -65,7 +65,7 @@
 															</select>
 														</div>
 													</div>
-													<div class="form-group">
+													<!--<div class="form-group">
 														<label class="col-sm-4 control-label" for="w1-topologia">Tipología</label>
 														<div class="col-md-6">
 															<select data-plugin-selectTwo class="form-control populate" name="tipologia_id">
@@ -79,10 +79,10 @@
 																@endif
 															</select>
 														</div>
-													</div>
+													</div>-->
 											</div>
 										<div class="checkbox-custom checkbox-default checkbox-inline mt-sm ml-md mr-md">
-											<input type='hidden' value=0 name='adjudicacionbancaria'> 
+											<input type='hidden' value=0 name='adjbancaria'> 
 											<input type="checkbox" value=1 id="adjudicacionbancaria" name="adjbancaria">
 											<label for="adjudicacionbancaria"  aria-expanded="false" aria-controls="adjudicacion">Adjudicación Bancaria</label>
 										</div>
@@ -137,7 +137,9 @@
 										<label class="col-sm-4 control-label" id="w1-pais">País</label>
 										<div class="col-sm-7">
 											<select data-plugin-selectTwo class="form-control populate" id="pais_id" name="pais_id">
-												<option value="1" selected>España</option>
+												@foreach($paises as $pais)
+													<option value="{{ $pais->id }}">{{ $pais->nombre }}</option>
+												@endforeach
 											</select>
 										</div>
 									</div>
@@ -210,7 +212,7 @@
 											<select data-plugin-selectTwo class="form-control populate" id="w1-piso" name="piso">
 												<option value="">::Seleccionar::</option>
 												@foreach($pisos as $key => $piso)
-													<option value="{{ $key }}">{{ $piso }}</option>
+													<option value="{{ $piso }}">{{ $piso }}</option>
 												@endforeach
 											</select>
 										</div>
@@ -716,14 +718,14 @@
 										</select>
 									</div>
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<div class="col-xs-12 col-md-8 col-md-offset-4">
 										<div class="checkbox-custom checkbox-default checkbox-inline mt-sm ml-md mr-md">
 											<input type="checkbox" checked="" name="ocultarprecio" id="w1-ocultarprecio">
 											<label for="w1-ocultarprecio" data-toggle="tooltip" data-placement="bottom" title="El precio visible en los anuncios despierta más interés entre los usuarios.">Ocultar precio en comunicaciones y publicaciones.</label>
 										</div>
 									</div>
-								</div>
+								</div>-->
 								<div class="form-group">
 									<label class="col-xs-12 col-md-4 control-label" for="w1-agua-caliente">Agua caliente sanitaria</label>
 									<div class="col-xs-12 col-md-7">

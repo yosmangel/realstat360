@@ -80,7 +80,7 @@
 									</div-->
 								</form>
 							</div>
-							<div class="col-xs-12">
+							<!--<div class="col-xs-12">
 								<h5>
 									También puedes añadir un link, por ejemplo para visualizar videos o 
 									tours virtuales que hayas subido previamente a una web de compartición.
@@ -109,7 +109,7 @@
 								<div id="msj_form_url" class="alert alert-success" role="alert" style="display:none">
 									Se guardó la URL del video
 								</div>
-							</div>
+							</div>-->
 						</div>
 					</div>
 				</div>

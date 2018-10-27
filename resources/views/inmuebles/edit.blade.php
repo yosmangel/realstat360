@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Registrar Inmueble')
+@section('title','Editar Inmueble')
 @section('css')
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins/jquery-ui/jquery-ui.theme.css') }}">
@@ -17,7 +17,7 @@
 						<div class="right-wrapper pull-right">
 							<ol class="breadcrumbs">
 								<li>
-									<a href="index.html">
+									<a href="{{route('home')}}">
 										<i class="fa fa-home"></i>
 									</a>
 								</li>
@@ -32,43 +32,40 @@
 							<div class="col-xs-12 col-md-12">
 								<section class="panel form-wizard" id="w1">
 									<header class="panel-heading">
-										<div class="panel-actions">
-											<a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
-										</div>
 										<h2 class="panel-title">
-											Editar Inmueble: <em>Ref. </em> <span class="label label-info">  <strong>R-{{ $inmueble->id }}</strong></span>
+											Editar Inmueble: <em>Ref-</em><strong>{{ $inmueble->id }}</strong>
 										</h2>
 									</header>
 									<div class="panel-body panel-body-nopadding">
 										<div class="wizard-tabs">
 											<ul class="wizard-steps">
 												<li id="tab-principales" class="active">
-													<a href="#w1-principales" data-toggle="tab" class="text-center">
+													<a href="#" data-toggle="tab" class="text-center">
 														<span class="badge hidden-xs">1</span>
 														Principales <small>Datos Inmueble</small>
 													</a>
 												</li>
 												<li id="tab-extras">
-													<a href="#w1-extras" data-toggle="tab" class="text-center">
+													<a  href="#" data-toggle="tab" class="text-center">
 														<span class="badge hidden-xs">2</span>
 														Extras <small>Inmueble, Finca</small>
 													</a>
 												</li>
 												<li id="tab-fotos">
-													<a href="#w1-fotos" data-toggle="tab" class="text-center">
+													<a href="#" data-toggle="tab" class="text-center">
 														<span class="badge hidden-xs">3</span>
 														Fotos y Documentos
 													</a>
 												</li>
 												<li id="tab-internos">
-													<a href="#w1-internos" data-toggle="tab" class="text-center">
-														<span class="badge hidden-xs">3</span>
+													<a  href="#" data-toggle="tab" class="text-center">
+														<span class="badge hidden-xs">4</span>
 														Internos <small>Datos Privados</small>
 													</a>
 												</li>
 												<li id="tab-demandas">
-													<a href="#w1-demandas" data-toggle="tab" class="text-center">
-														<span class="badge hidden-xs">3</span>
+													<a href="#" data-toggle="tab" class="text-center">
+														<span class="badge hidden-xs">5</span>
 														Demandas <small>coincidentes</small>
 													</a>
 												</li>
@@ -76,39 +73,38 @@
 										</div>
 
 											<div class="tab-content">
-												<div id="w1-principales" class="tab-pane active">
+												<div role="tabpanel" id="w1-principales" class="tab-pane active">
 													@include('inmuebles.sections.principales_edt')
 												</div>
 												<!-- Entrada de los datos de la Direccion del Inmueble -->
-												<div id="w1-extras" class="tab-pane">
+												<div role="tabpanel" id="w1-extras" class="tab-pane">
 													@include('inmuebles.sections.extras_edt')
 												</div>
 												<!-- DATOS -->
-												<div id="w1-fotos" class="tab-pane">
+												<div role="tabpanel" id="w1-fotos" class="tab-pane">
 													@include('inmuebles.sections.fotos')
 												</div>
 												<!-- DESCRIPCION -->
-												<div id="w1-internos" class="tab-pane">
-													@include('inmuebles.sections.internos')
+												<div role="tabpanel" id="w1-internos" class="tab-pane">
+													@if(empty($inmueble->interno))
+														@include('inmuebles.sections.internos')
+													@else
+														@include('inmuebles.sections.internos_edit')
+													@endif
 												</div>
 												<!-- DATOS DE CONTACTO EN PUBLICACIONES -->
-												<div id="w1-demandas" class="tab-pane">
-													<form class="form-horizontal" novalidate="novalidate">
-														Implementar el match de este inmueble con las demandas coincidentes
-													</form>
+												<div role="tabpanel" id="w1-demandas" class="tab-pane">
+													@include('inmuebles.sections.demandas')
 												</div>
 											</div>
 									</div>
 									<div class="panel-footer">
 										<ul class="pager">
-											<li class="previous disabled">
-												<a><i class="fa fa-angle-left"></i> Anterior</a>
+											<li id="previousLI" class="pull-left disabled">
+												<a href="#"><i class="fa fa-angle-left"></i> Anterior</a>
 											</li>
-											<li class="finish hidden pull-right">
-												<a>Último</a>
-											</li>
-											<li class="next">
-												<a>Siguiente <i class="fa fa-angle-right"></i></a>
+											<li id="nextLI" class="pull-right">
+												<a href="#">Siguiente <i class="fa fa-angle-right"></i></a>
 											</li>
 										</ul>
 									</div>
@@ -127,12 +123,13 @@
 	<script src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
 	<script src="{{ asset('plugins/bootstrap-wizard/jquery.bootstrap.wizard.js') }}"></script>
 	<script src="{{ asset('plugins/pnotify/pnotify.custom.js') }}"></script>
-	<!--script src="{{ asset('plugins/select2/js/select2.js') }}"></script-->
+	<script src="{{ asset('js/forms/examples.wizard.js') }}"></script>
+
 	<script src="{{ asset('plugins/dropzone/dropzone.js') }}"></script>
 	<script src="{{ asset('js/main/archivos_dropzone.js') }}" ></script>
 	<script src="{{ asset('js/main/utils.js') }}" ></script>
-	<!--script src="{{ asset('plugins/dropzone/dropzone.js') }}"></script-->
-	<script src="{{ asset('js/main/inmuebles.js') }}"></script>
+
+	<script src="{{ asset('js/main/editarInmueble.js') }}"></script>
 	<script src="{{ asset('js/main/common.js') }}"></script>
 @endsection
   
