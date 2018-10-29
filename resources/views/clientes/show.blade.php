@@ -115,10 +115,12 @@
 																				<div class="table-responsive">
 																					<table class="table table-striped mb-none">
 																						<tbody>
-																							<tr>
-																								<td width="20%"><strong>País:</strong></td>
-																								<td width="80%" class="text-left">{{$cliente->pais->nombre}}</td>
-																							</tr>
+																							@if(!empty($cliente->pais))
+																								<tr>
+																									<td width="20%"><strong>País:</strong></td>
+																									<td width="80%" class="text-left">{{$cliente->pais->nombre}}</td>
+																								</tr>
+																							@endif
 																							<tr>
 																								<td width="20%"><strong>Dirección:</strong></td>
 																								<td width="80%" class="text-left">

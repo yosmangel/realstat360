@@ -49,16 +49,24 @@ class AgenteInmuebleController extends Controller
         };
 
         $clientes = Cliente::where('usuario_id',Auth::user()->id)
-                             ->orWhere('nombre','LIKE',"%$busqueda%")
-                             ->orWhere('apellidos','LIKE',"%$busqueda%")
-                             ->orWhere('alias','LIKE',"%$busqueda%")
-                             ->orWhere('tipo_cliente','LIKE',"%$busqueda%")
-                             ->orWhere('telefono','LIKE',"%$busqueda%")
-                             ->orWhere('calle','LIKE',"%$busqueda%")
-                             ->orWhere('visitas','LIKE',"%$busqueda%")
-                             ->orWhere('presupuesto','LIKE',"%$busqueda%")
-                             ->orWhere('medio_contacto','LIKE',"%$busqueda%")
-                             ->get();
+                            
+                            ->where(function ($query) use($busqueda) {
+                                $query->leftjoin('vias as via','clientes.via_id','=','via.id')
+                                ->leftjoin('municipios as muni','clientes.municipio_id','=','muni.id')
+                                ->leftjoin('paises as p','clientes.pais_id','=','p.id')
+                                // ->orWhere('via.nombre','LIKE',"%$busqueda%")
+                                // ->orWhere('muni.nombre','LIKE',"%$busqueda%")
+                                 //->orWhere('p.nombre','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.nombre','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.apellidos','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.alias','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.tipo_cliente','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.telefono','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.calle','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.visitas','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.presupuesto','LIKE',"%$busqueda%")
+                                 ->orWhere('clientes.medio_contacto','LIKE',"%$busqueda%")->get();
+                            })->get();
 
         $clientes->each(function($clientes){
                 $clientes->inmuebles;
