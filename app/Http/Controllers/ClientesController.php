@@ -378,7 +378,6 @@ class ClientesController extends Controller
                 $path_public = public_path();
                 $url_base = url('/');
                 return response()->json(["mensaje" => "Se ha actualizado el cliente.", 'idcliente' => $cliente->id, 'path_base'=> $path_base, 'path_public' => $path_public, 'url_base' => $url_base ]);
-                return redirect('/clientes');
             }else{
                 return response()->json(["mensaje" => "Ocurrió un error al intentar dar de alta al cliente."]);
             }

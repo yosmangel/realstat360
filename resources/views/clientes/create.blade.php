@@ -37,7 +37,7 @@
 										<h2 class="panel-title">Nuevo Cliente</h2>
 									</header>
 									<div class="panel-body panel-body-nopadding">
-										@include('clientes.sections.principales', ['cliente' => $cliente, 'url' => '/clientes', 'method' => 'POST', 'texto_submit' => 'Guardar'] )
+										@include('clientes.sections.principales', ['cliente' => $cliente, 'url' =>route('clientes.store'), 'method' => 'POST', 'texto_submit' => 'Guardar'] )
 									</div>
 								</section>
 							</div>
@@ -60,4 +60,5 @@
 	<script src="{{ asset('js/main/utils.js') }}" ></script>
 	<script src="{{ asset('js/main/clientes.js') }}"></script>
 	<script src="{{ asset('js/main/agencias.js') }}"></script>
+	<script src="{{ asset('js/datatables.min.js') }}"></script>
 @endsection

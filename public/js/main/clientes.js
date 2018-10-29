@@ -60,7 +60,6 @@ $(document).ready(function(){
 		   		timeOutId = setTimeout(function(){
 		   			window.location.href = urlSuccess;
 				}, 2000);
-				console.log(result);
 		    }
 		});
 		clearTimeout(timeOutId);
