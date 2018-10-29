@@ -99,7 +99,12 @@ class HomeController extends Controller
         // Agencia
         $agencia = Agencia::where('user_id', Auth::user()->id)->get();
         // Agentes
-        $agentes = Agente::where('agencia_id', $agencia[0]->id)->get();
+        $agentes=[];
+
+        if(count($agencia)){
+            $agentes = Agente::where('agencia_id', $agencia[0]->id)->get();    
+        }
+        
         return view('home', compact('dia_sem', 'arrayFecha', 'mes', 'acciones', 'agentes'));
     }
 
