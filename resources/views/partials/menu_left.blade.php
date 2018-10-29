@@ -21,37 +21,37 @@
                     <li class="nav-active">
                         <a href="{{route('home')}}">
                             <i class="fa fa-desktop" aria-hidden="true"></i>
-                            <span>INICIO RS360</span>
+                            <span>INICIO</span>
                         </a>
                     </li>
-                    <li class="nav-parent">
+                    <!--<li class="nav-parent">
                         <a>
                             <i class="fa fa-building" aria-hidden="true"></i>
                             <span>INMUEBLES</span>
                         </a>
                         <ul class="nav nav-children">
                             <li>
-                                <a href="{{ route('inmuebles.index') }}">
+                                <a href="{ route('inmuebles.index') }}">
                                         Lista Inmuebles
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('inmuebles.create') }}">
+                                <a href="{ route('inmuebles.create') }}">
                                     Nuevo Inmueble
                                 </a>
                             </li>
                             <!--<li>
-                                <a href="{{ route('promociones.index') }}">
+                                <a href="{ route('promociones.index') }}">
                                     Lista Promociones
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('promociones.create') }}">
+                                <a href="{ route('promociones.create') }}">
                                     Nueva Promoci&oacute;n
                                 </a>
-                            </li>-->
+                            </li>
                         </ul>
-                    </li>
+                    </li>-->
                     <li class="nav-parent">
                         <a>
                             <i class="fa fa-users" aria-hidden="true"></i>
@@ -77,12 +77,12 @@
                         </a>
                         <ul class="nav nav-children">
                             <li>
-                                <a href="{{ route('demandas.index') }}">
+                                <a href="{ route('demandas.index') }}">
                                         Lista de Demandas
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('demandas.create') }}">
+                                <a href="{ route('demandas.create') }}">
                                         Nueva Demanda
                                 </a>
                             </li>
@@ -95,17 +95,17 @@
                         </a>
                         <ul class="nav nav-children">
                             <li>
-                                <a href="{{ route('acciones.index') }}">
+                                <a href="{ route('acciones.index') }}">
                                         Lista de Acciones
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('acciones.create') }}">
+                                <a href="{ route('acciones.create') }}">
                                         Crear Acción
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('acciones.agenda') }}">
+                                <a href="{ route('acciones.agenda') }}">
                                         Agenda
                                 </a>
                             </li>
@@ -147,12 +147,12 @@
                         </a>
                         <ul class="nav nav-children">
                             <li>
-                                <a href="{{ route('agentes.index') }}">
+                                <a href="{ route('agentes.index') }}">
                                     Lista
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('agentes.create') }}">
+                                <a href="{ route('agentes.create') }}">
                                     Nuevo Agente
                                 </a>
                             </li>
@@ -166,7 +166,7 @@
                         </a>
                         <ul class="nav nav-children">
                             <li>
-                                <a href="{{ route('agencias.create') }}">
+                                <a href="{ route('agencias.create') }}">
                                         Datos de la Agencia
                                 </a>
                             </li>

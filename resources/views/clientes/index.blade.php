@@ -53,15 +53,13 @@
 														@if(count($clientes)>0)
 														 
 														 <div class="table-responsive">
-															<table class="datatable table table-striped table-bordered"  data-url="{{ route('inmuebles.lista') }}" >
+															<table class="datatable table table-striped table-bordered" >
 																<thead>
 																	<tr>
 																		<th>Nombre</th>
-																		<th>Ofertante</th>
-																		<th>Demandante</th>
-																		<th>Acciones Pendientes</th>
+																		<th>Fecha Alta</th>
 																		<th>Contacto</th>
-																		<th>Agente</th>
+																		<th>Estado</th>
 																		<th>Operaciones</th>
 																	</tr>
 																</thead>
@@ -70,16 +68,8 @@
 																		<tr data-id="{{ $cliente->id }}">
 																			<td><a href="{{ route('clientes.show',$cliente->id) }}">{{ $cliente->apellidos }}, {{ $cliente->nombre }}</a></td>
 																			<td class="text-center">
-																				@if(count($cliente->inmuebles) > 0)
-																					<a href="{{ route('clientes.inmuebles',$cliente->id) }}">
-																						{{ $string_modalidad[$cliente->id] }}&nbsp;&nbsp;
-																					</a>
-																				@else
-																					-
-																				@endif
+																				{{$cliente->fecha_alta}}
 																			</td>
-																			<td><a href=""><i class="fa fa-search"></i></a></td>
-																			<td><a href=""><i class="fa fa-search"></i></a></td>
 																			<td>
 																				<?php $c = 0; ?>
 																				@if($cliente->telefono)
@@ -117,7 +107,9 @@
 																					{{ $cliente->email2 }}
 																				@endif
 																			</td>
-																			<td><a href=""><i class="fa fa-search"></i></a></td>
+																			<td>
+																				{{$cliente->estado}}
+																			</td>
 																			<td class="text-center">
 																				<a href="{{ route('clientes.edit',$cliente->id) }}"><i class="el el-edit"></i></a> | 
 																				<a href="#!" class='delete-row'><i class='fa fa-trash-o'></i></a>

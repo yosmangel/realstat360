@@ -4,7 +4,7 @@
     <section class="body-sign">
         <div class="center-sign">
             <a href="/" class="logo pull-left">
-                <img src="{{ asset('images/realstate360.png') }}" height="54" alt="Logo" />
+                <img src="{{ asset('images/logo5.png') }}" height="50" alt="Logo" />
             </a>
             <div class="panel panel-sign">
                 <div class="panel-title-sign mt-xl text-right">
@@ -81,8 +81,8 @@
                         </div>
 
                         <br>
-                        <p class="text-center">Ir a la página de <a href="{{ url('/') }}">Inicio</a></p>
-                        <!--p class="text-center">¿Aún no se ha registrado? <a href="{{ url('/register') }}">¡Ir al Registro!</a></p-->
+                        <p class="text-center">Ir a la página de <a href="{{route('home')}}">Inicio</a></p>
+                        <!--p class="text-center">¿Aún no se ha registrado? <a href="{ url('/register') }}">¡Ir al Registro!</a></p-->
                     </form>
                 </div>
             </div>

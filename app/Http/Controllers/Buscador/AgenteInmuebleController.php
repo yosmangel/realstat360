@@ -16,7 +16,7 @@ class AgenteInmuebleController extends Controller
     {   
 
     	$busqueda=$request->buscadorGeneral;
-    	
+    	/*
     	$inmuebles=Inmueble::where('inmuebles.active','=',1)
     				 ->leftjoin('tipos as t','inmuebles.tipo_id','=','t.id')
                      ->leftjoin('modalidades as m','inmuebles.id','=','m.inmueble_id')
@@ -35,19 +35,19 @@ class AgenteInmuebleController extends Controller
                      ->orWhere('inmuebles.codigo_postal','LIKE',"%$busqueda%")
                      ->select('inmuebles.*')
                      ->get();
-        
+        */
         /* Getting the property data through the relational model */
-        $inmuebles->each(function($inmuebles){
+        /*$inmuebles->each(function($inmuebles){
             $inmuebles->imagenes;
             $inmuebles->pais;
             $inmuebles->getAgenceId();
         });
          /* Getting the number of Demands by Property */
-        $demCoincidentes = [];
+        /*$demCoincidentes = [];
         foreach ($inmuebles as $inmueble) {
             $demCoincidentes[$inmueble->id] = $inmueble->getDemands();
         };
-
+        */
         $clientes = Cliente::where('usuario_id',Auth::user()->id)
                             
                             ->where(function ($query) use($busqueda) {
@@ -144,7 +144,7 @@ class AgenteInmuebleController extends Controller
             $string_temp = '';
         }
         /* Getting the number of Demands by Property */
-        return view('buscador.agente_inmueble', compact('inmuebles', 'demCoincidentes', 'clientes'));
+        return view('buscador.agente_inmueble', compact( 'clientes'));
         
     }
 }

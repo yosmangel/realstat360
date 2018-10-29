@@ -56,8 +56,8 @@ Route::group(['middleware' => ['auth']], function(){
 	 * Rutas de inmueble
 	 */
 
-	Route::resource('inmuebles', 'InmueblesController');
-	
+	//Route::resource('inmuebles', 'InmueblesController');
+	/*
 	Route::get('inmuebles/extras/{id}',[
 			'uses'	=> 'InmueblesController@extras',
 			'as'	=> 'inmuebles.extras'
@@ -91,6 +91,7 @@ Route::group(['middleware' => ['auth']], function(){
 			'uses'	=> 'InmueblesController@refreshfiles',
 			'as'	=> 'inmuebles.inmufile'
 		]);
+	*/
 	Route::resource('extras', 'ExtrasController');
 	Route::resource('extrasdemandas', 'ExtrasDemandasController');
 	Route::resource('internos', 'InternosController');
@@ -111,6 +112,7 @@ Route::group(['middleware' => ['auth']], function(){
 			'uses'	=> 'AccionesController@agenda',
 			'as'	=> 'acciones.agenda']
 		);
+	/*
 	Route::resource('demandas','DemandasController');
 	// Ruta para el enlace de inmuebles coincidentes que estan en la tabla de demandas
 	// solo lanza la vista
@@ -133,7 +135,7 @@ Route::group(['middleware' => ['auth']], function(){
 		'uses'	=> 'InmueblesController@demandasCoincidentes',
 		'as'	=> 'inmuebles.lista_demandas_coincidentes'
 	]);
-
+	*/
 	Route::resource('archivos','ArchivosController');
 	Route::resource('imagenes','ImagenesController');
 	Route::get('/imagenes/{imagen}/descargar', 'ImagenesController@descargar')->name('imagenes.descargar');

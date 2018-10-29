@@ -106,12 +106,12 @@
 										<input type="text" class="form-control input-sm" name="apellidos" id="w1-apellidos"  value="{{ $cliente->apellidos }}">
 									</div>
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-alias">Alias</label>
 									<div class="col-sm-7">
 										<input type="text" class="form-control input-sm" name="alias" id="w1-alias" value="{{ $cliente->alias }}">
 									</div>
-								</div>
+								</div>-->
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="w1-fecha-nacimiento">Fecha Nacimiento</label>
 									<div class="col-md-7">
@@ -275,14 +275,23 @@
 								</div>-->
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-visitas">Visitas</label>
-									<div class="col-sm-7">
-										<input type="text" class="form-control input-sm" name="visitas" id="w1-visitas"  value="{{ $cliente->visitas }}">
+									<div class="col-md-8">
+										<textarea class="form-control" rows="3" name="visitas" id="w1-visitas">{{ $cliente->visitas }}</textarea>
 									</div>
 								</div>
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="w1-presupuesto">Presupuesto</label>
 									<div class="col-sm-7">
 										<input type="text" class="form-control input-sm" name="presupuesto" id="w1-presupuesto"  value="{{ $cliente->presupuesto }}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label" id="w1-mcontacto">Estado</label>
+									<div class="col-sm-7">
+										<select data-plugin-selectTwo class="form-control populate" id="w1-mcontacto" name="estado">
+											<option value="Compro" {{ $cliente->estado == 'Compro' ? 'selected' : '' }}>Compro</option>
+											<option value="No compro" {{ $cliente->estado == 'No compro' ? 'selected' : '' }}>No compro</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -297,9 +306,10 @@
 									<div class="col-sm-7">
 										<select data-plugin-selectTwo class="form-control populate" id="w1-mcontacto" name="medio_contacto">
 											<option value="" {{ $cliente->medio_contacto == '' || $cliente->medio_contacto ==null ? 'selected' : '' }}>::Seleccionar::</option>
-											<option value="Telefono" {{ $cliente->medio_contacto == 'Telefono' ? 'selected' : '' }}>Télefono</option>
-											<option value="Correo" {{ $cliente->medio_contacto == 'Correo' ? 'selected' : '' }}>Correo</option>
-											<option value="Movil" {{ $cliente->medio_contacto == 'Movil' ? 'selected' : '' }}>Móvil</option>
+											<option value="Papeles" {{ $cliente->medio_contacto == 'Papeles' ? 'selected' : '' }}>Papeles</option>
+											<option value="Idealista" {{ $cliente->medio_contacto == 'Idealista' ? 'selected' : '' }}>Idealista</option>
+											<option value="Fotocasa" {{ $cliente->medio_contacto == 'Fotocasa' ? 'selected' : '' }}>Fotocasa</option>
+											<option value="Cartel" {{ $cliente->medio_contacto == 'Cartel' ? 'selected' : '' }}>Cartel</option>
 										</select>
 									</div>
 								</div>

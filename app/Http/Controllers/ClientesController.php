@@ -19,6 +19,7 @@ use App\Inmueble;
 use App\Modalidad;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class ClientesController extends Controller
 {
@@ -198,6 +199,7 @@ class ClientesController extends Controller
                 ],$messages);
             $cliente = new Cliente();
             $cliente->usuario_id = Auth::user()->id;
+            $cliente->fecha_alta= Carbon::now();
             $cliente->fill(array_filter($request->all()));
             if ($cliente->save()) {
                 $path_base = base_path();
@@ -372,6 +374,7 @@ class ClientesController extends Controller
                 ],$messages);
             $cliente = Cliente::find($id);
             $cliente->usuario_id = Auth::user()->id;
+            $cliente->fecha_alta= Carbon::now();
             $cliente->fill(array_filter($request->all()));
             if ($cliente->update()) {
                 $path_base = base_path();

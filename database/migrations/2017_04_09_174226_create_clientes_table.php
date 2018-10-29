@@ -47,12 +47,11 @@ class CreateClientesTable extends Migration
                   ->references('id')
                   ->on('idiomas')
                   ->onDelete('cascade');
-            $table->enum('tipo_cliente',['Accionista','Agencia Colaboradora','Arrendador','Asociado','Colaborador','Competencia','Comprador','Constructor','Copropietario','Inquilino','Inversor','Operador','Permutante','Potencial Arrendador','Potencial Inquilino','Potencial Comprador','Potencial Vendedor','Prensa Especializada','Promotor','Traspasante','Vendedor','Banco'])->default('Comprador')->nullable();
+            $table->string('tipo_cliente',255)->nullable();
             // Datos internos
-            $table->enum('origen',['Acciones de Buzoneo','Anuncio neon','anuncit.com','Buscador Web 2','cartel 2', 'Cliente recomendado','Colaborador','dividendo.es','EL CORREO','granmanzana.es','Idealista','Inmoportalix','Jornada Puertas Abiertas','Llamada Telefonica','micasa.es','mitula.com','Oficina/Escaparate','otro','pisocasas.com','plandeprotecciondealquiler.com','Redes Sociales','trovimap.com','una web','wordinmo.com'])->default('otro')->nullable();
+            $table->string('origen',255)->nullable();
             $table->date('fecha_alta')->nullable();
-            $table->enum('estado',['Inactivo','Activo','Potencial','Activo A','Activo B','Activo C','Activo D'])->nullable();
-
+            $table->string('estado',255)->nullable();
             // DATOS DE CONTACTO
             $table->string('telefono')->nullable();
             $table->enum('telefono_de',['Casa','Otro','Personal','Principal','Trabajo'])->default('Otro');
