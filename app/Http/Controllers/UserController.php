@@ -117,7 +117,39 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->ajax()) {
+
+            $profile = User::find($id);
+            $messages = [
+                'nombre.required'       => 'Debe ingresar el nombre del usuario.',
+                'nombre.min'            => 'El nombre del usuario debe tener al menos 3 carácteres.',
+                'lastname.required'    =>'Debe ingresar los apellidos del usuario.',
+                'lastname.min'         => 'El apellido del usuario debe tener al menos 3 carácteres.',
+                'password' =>'La contraseña debe ser mayor a 8 dígitos.',
+                'password.confirmed'  =>'La confirmación de la contraseña debe ser igual a la contraseña.',
+                
+                
+            ];
+            $this->validate($request,[
+                'nombre'        => 'required|min:3',
+                'lastname'     => 'required|min:3',
+                'password'  => 'min:8|confirmed'
+                ],$messages);
+
+            $profile->name = $request->nombre;
+            $profile->lastname = $request->lastname;
+            $profile->address= $request->address;
+
+            if ($request->password != '' && $request->password != null) {
+                $profile->password = bcrypt($request->password);
+            }
+
+            if ($profile->update()) {
+                return ['message' => 'Se han actualizado los datos del usuario'];
+            }else{
+                return ['message' => 'Ha ocurrido un error al ntentar actualizar sus datos personales'];
+            }
+        }
     }
 
     /**
