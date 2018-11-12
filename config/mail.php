@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'mail.realstate360.com'),
+    'host' => env('MAIL_HOST', 'mail.asesoresjmc.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'from' => ['address' => 'admin@realstate360.com', 'name' => 'RealState360'],
+    'from' => ['address' => 'no-reply@asesoresjmc.com', 'name' => 'AsesoresJMC'],
 
     /*
     |--------------------------------------------------------------------------
