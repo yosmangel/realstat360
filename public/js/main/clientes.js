@@ -305,7 +305,7 @@ function validarFormularioCliente(){
 		flag=true;
 	}
 
-	if(apellido==null || apellido=="" || apellido==undefined){
+	/*if(apellido==null || apellido=="" || apellido==undefined){
 		errors += "El apellido del cliente es obligatorio." + '<br>';
 		flag=true;
 	}else if(apellido.length<3){
@@ -352,7 +352,7 @@ function validarFormularioCliente(){
 	}else if(validaNumeros(presupuesto)==false){
 		errors += "Debe ingresar un valor neto sin decimales ni puntos para el presupuesto." + '<br>';
 		flag=true;
-	}
+	}*/
 
 	var resultado={
 		'flag':flag,

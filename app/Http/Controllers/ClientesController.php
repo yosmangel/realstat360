@@ -164,9 +164,14 @@ class ClientesController extends Controller
         if ($request->ajax()) {
 
             $messages = [
+                'email.unique'=> 'El correo ya existe en nuestros registros para un cliente, por favor introduzca otro.',
+                'email.required'=> 'Debe ingresar el correo del cliente.',
+                'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
+                'telefono.unique'=> 'El teléfono ya existe en nuestros registros para un cliente, por favor introduzca otro.',
+                'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
                 'nombre.required'       => 'Debe ingresar el nombre del cliente.',
                 'nombre.min'            => 'El nombre del cliente debe tener al menos 3 carácteres.',
-                'apellidos.required'    =>'El apellido del cliente es obligatorio.',
+                /*'apellidos.required'    =>'El apellido del cliente es obligatorio.',
                 'apellidos.min'         => 'El apellido del cliente debe tener al menos 3 carácteres.',
                 'fecha_nacimiento.required'=> 'La fecha de nacimiento del cliente es obligatoria.',
                 'tipo_doc.required'     => 'El tipo de documento es obligatorio.',
@@ -177,17 +182,13 @@ class ClientesController extends Controller
                 'visitas.required'      => 'Las visitas del cliente es obligatorio.',
                 'presupuesto.required'  => 'El presupuesto del cliente es obligatorio.',
                 'presupuesto.numeric'   => 'Debe ingresar un valor neto sin decimales ni puntos para el presupuesto.',
-                'email.unique'=> 'El correo ya existe en nuestros registros para un cliente, por favor introduzca otro.',
-                'email.required'=> 'Debe ingresar el correo del cliente.',
-                'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
-                'telefono.unique'=> 'El teléfono ya existe en nuestros registros para un cliente, por favor introduzca otro.',
-                'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
+                */
                 
             ];
             $this->validate($request,[
                 'email'        => 'required|email|unique:clientes,email',
                 'telefono'      => 'required|unique:clientes,telefono',
-                'nombre'        => 'required|min:3',
+                'nombre'        => 'required|min:3'/*,
                 'apellidos'     => 'required|min:3',
                 'fecha_nacimiento'=> 'required',
                 'tipo_doc'      => 'required',
@@ -195,7 +196,7 @@ class ClientesController extends Controller
                 'idioma_id'     => 'required',
                 'tipo_cliente'  => 'required',
                 'visitas'        => 'required',
-                'presupuesto'       => 'required|numeric'
+                'presupuesto'       => 'required|numeric'*/
                 ],$messages);
             $cliente = new Cliente();
             $cliente->usuario_id = Auth::user()->id;
@@ -344,7 +345,12 @@ class ClientesController extends Controller
                 'nombre.min'            => 'El nombre del cliente debe tener al menos 3 carácteres.',
                 'apellidos.required'    =>'El apellido del cliente es obligatorio.',
                 'apellidos.min'         => 'El apellido del cliente debe tener al menos 3 carácteres.',
-                'fecha_nacimiento.required'=> 'La fecha de nacimiento del cliente es obligatoria.',
+                'email.required'=> 'Debe ingresar el correo del cliente.',
+                'email.unique'=> 'El correo ya existe en nuestros registros para un cliente, por favor introduzca otro.',
+                'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
+                'telefono.unique' => 'El teléfono ya existe en nuestros registros para un cliente, por favor introduzca otro.',
+                'telefono.required'=> 'Debe ingresar el teléfono del cliente.',
+                /*'fecha_nacimiento.required'=> 'La fecha de nacimiento del cliente es obligatoria.',
                 'tipo_doc.required'     => 'El tipo de documento es obligatorio.',
                 'tipo_doc_num.required' => 'El número de documento del cliente es obligatorio.',
                 'tipo_doc_num.min' => 'El número de documento del cliente debe tener al menos 5 carácteres.',
@@ -353,16 +359,12 @@ class ClientesController extends Controller
                 'visitas.required'      => 'Las visitas del cliente es obligatorio.',
                 'presupuesto.required'  => 'El presupuesto del cliente es obligatorio.',
                 'presupuesto.numeric'   => 'Debe ingresar un valor neto sin decimales ni puntos para el presupuesto.',
-                'email.required'=> 'Debe ingresar el correo del cliente.',
-                'email.unique'=> 'El correo ya existe en nuestros registros para un cliente, por favor introduzca otro.',
-                'email.email'=> 'Debe ingresar un formato correcto para el correo del cliente.',
-                'telefono.unique' => 'El teléfono ya existe en nuestros registros para un cliente, por favor introduzca otro.',
-                'telefono.required'=> 'Debe ingresar el teléfono del cliente.'
+                */
             ];
             $this->validate($request,[
                 'email'        => 'required|email|unique:clientes,email,'.$cliente->id,
                 'telefono'      => 'required|unique:clientes,telefono,'.$cliente->id,
-                'nombre'        => 'required|min:3',
+                'nombre'        => 'required|min:3'/*,
                 'apellidos'     => 'required|min:3',
                 'fecha_nacimiento'=> 'required',
                 'tipo_doc'      => 'required',
@@ -370,7 +372,7 @@ class ClientesController extends Controller
                 'idioma_id'     => 'required',
                 'tipo_cliente'  => 'required',
                 'visitas'        => 'required',
-                'presupuesto'       => 'required|numeric'
+                'presupuesto'       => 'required|numeric'*/
                 ],$messages);
             $cliente = Cliente::find($id);
             $cliente->usuario_id = Auth::user()->id;
