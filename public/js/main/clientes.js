@@ -8,8 +8,10 @@ $(document).ready(function(){
 	    var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
 	    length_sel.addClass('form-control input-sm');
 	});
-
 	
+
+	$("#w1-telefono").inputmask({"mask": "(99) 999-99-99-99"});
+	//$('#w1-telefono').mask("(99) 999-99-99-99", {placeholder: "(  )    -   -   -  "});
 	// Nuevo Cliente
 	$('.btn-submit').bind('click', function(e){
 		e.preventDefault();
@@ -292,11 +294,8 @@ function validarFormularioCliente(){
 	if(telefono==null || telefono=="" || telefono==undefined){
 		errors += "Debe ingresar el teléfono del cliente." + '<br>';
 		flag=true;
-	}else if(validaNumeros(telefono) == false){
-		errors += "Debe ingresar solo números para el télefono del cliente." + '<br>';
-		flag=true;
 	}
-
+	
 	if(nombre==null || nombre=="" || nombre==undefined){
 		errors += "Debe ingresar el nombre del cliente." + '<br>';
 		flag=true;
@@ -373,4 +372,17 @@ function validaCaracteres(texto) {
 
 function validaNumeros(numeros) {
     return /^[0-9]+$/i.test(numeros);
+}
+
+function verificarNumero(value){
+	var numero=value;
+
+	numero.replace('(','');
+	numero.replace(')','');
+	numero.replace('-','');
+	numero.replace(' ','');
+	if(!validaNumeros(numero)){
+		numero.substr(0,(numero.length-1));
+		$('#w1-telefono').val(numero);
+	}	
 }

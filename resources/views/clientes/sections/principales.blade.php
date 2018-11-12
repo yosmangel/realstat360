@@ -91,7 +91,7 @@
 										<i id="removeTel" class="el el-remove" style="visibility: hidden"></i><i id="okTel" class="el el-ok" style="visibility: hidden"></i> Teléfono <i class="el el-info-circle"  data-toggle="tooltip" data-placement="bottom" title="Introduce los números sin espacios ni otros signos."></i>
 									</label>
 									<div class="col-sm-7">
-										<input type="text" class="form-control input-sm" name="telefono" id="w1-telefono" value="{{ $cliente->telefono }}">
+										<input type="text" class="form-control input-sm" name="telefono" id="w1-telefono" onKeyUp="verificarNumero(this.value)" value="{{ $cliente->telefono }}">
 									</div>
 								</div>
 								<div class="form-group">

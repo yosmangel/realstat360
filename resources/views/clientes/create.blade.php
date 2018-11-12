@@ -55,6 +55,7 @@
 	<script src="{{ asset('plugins/bootstrap-wizard/jquery.bootstrap.wizard.js') }}"></script>
 	<script src="{{ asset('plugins/pnotify/pnotify.custom.js') }}"></script>
 	<script src="{{ asset('plugins/select2/js/select2.js') }}"></script>
+	<script src="{{ asset('plugins/jquery-maskedinput/inputmaks.js')}}"></script>
 	<!-- Examples -->
 	<script src="{{ asset('js/forms/examples.wizard.js') }}"></script>
 	<script src="{{ asset('js/main/utils.js') }}" ></script>
